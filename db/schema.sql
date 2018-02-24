@@ -237,3 +237,7 @@ create policy update_post on forum_example.post for update to forum_example_pers
 
 create policy delete_post on forum_example.post for delete to forum_example_person
   using (author_id = current_setting('jwt.claims.person_id')::integer);
+
+create function forum_example.popular_threads() returns setof forum_example.thread as $$
+  select thread.* from forum_example.thread inner join forum_example.post on (post.thread_id = thread.id) group by thread.id order by count(*) desc;
+$$ language sql stable;

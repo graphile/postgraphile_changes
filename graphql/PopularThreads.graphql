@@ -1,0 +1,17 @@
+query PopularThreads {
+  popularThreads(first: 20) {
+    nodes {
+      nodeId
+      id
+      title
+      postCount
+      topic
+      author: personByAuthorId {
+        nodeId
+        id
+        fullName
+        createdAt
+      }
+    }
+  }
+}
