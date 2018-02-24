@@ -1,0 +1,31 @@
+const results = require("./results.json");
+const { table } = require("table");
+
+const data = [
+  [
+    "Query",
+    "program",
+    "concurrency",
+    "requests/second avg",
+    "latency min",
+    "latency p50",
+    "latency p90",
+    "latency p99"
+  ]
+];
+
+for (const result of results) {
+  const [bin, query, concurrency] = result.title.split(/ \/ (?:concurrency=)?/);
+  data.push([
+    query,
+    bin,
+    concurrency,
+    result.requests.average,
+    result.latency.average,
+    result.latency.p50,
+    result.latency.p90,
+    result.latency.p99
+  ]);
+}
+
+console.log(table(data));
