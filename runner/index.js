@@ -1,5 +1,5 @@
 const { resolve } = require("path");
-const { spawn } = require("child_process");
+const { spawn, execFile } = require("child_process");
 const { readdirSync, readFileSync, writeFileSync } = require("fs");
 const rawAutocannon = require("autocannon");
 
@@ -32,6 +32,25 @@ const queries = readdirSync(QUERY_DIR)
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function memoryMonitor(pid) {
+  const results = [];
+  function get() {
+    return new Promise(resolve => {
+      execFile("/bin/ps", ["-o", "rss", `-p${pid}`], {}, (err, stdout) => {
+        results.push([Date.now(), parseInt(stdout.split("\n")[1], 10)]);
+        resolve();
+      });
+    });
+  }
+  const interval = setInterval(get, 500);
+  get();
+  return async function stop() {
+    clearInterval(interval);
+    await get();
+    return results;
+  };
 }
 
 async function runProgram(
@@ -84,10 +103,12 @@ async function runProgram(
     });
   });
   await sleep(1000);
-  return async function() {
+  const stop = async function() {
     child.kill("SIGTERM");
     return exitPromise;
   };
+  stop.pid = child.pid;
+  return stop;
 }
 
 async function main() {
@@ -98,6 +119,7 @@ async function main() {
     for (const program of ["postgraphile", "postgraphql"]) {
       console.log(`Running ${program} with ${queryFileName}`);
       const exitProgram = await runProgram(program);
+      const pid = exitProgram.pid;
 
       console.log("  Warmup...");
       await autocannon(
@@ -125,6 +147,8 @@ async function main() {
       for (const concurrency of [1, 10, 100]) {
         console.log("  Concurrency ", concurrency, "...");
 
+        const exitMonitor = memoryMonitor(pid);
+
         const results = await autocannon({
           title: `${program} / ${queryFileName} / concurrency=${concurrency}`,
           url: "http://localhost:5000/graphql",
@@ -141,6 +165,7 @@ async function main() {
           duration: 1000,
           timeout: 200
         });
+        results.memorySamples = await exitMonitor();
         allResults.push(results);
         if (LOG_OUTPUT) console.log(results);
         console.log();

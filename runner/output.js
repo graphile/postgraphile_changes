@@ -12,7 +12,8 @@ const data = [
     "latency min",
     "latency p50",
     "latency p90",
-    "latency p99"
+    "latency p99",
+    "max RSS"
   ]
 ];
 
@@ -28,7 +29,8 @@ for (const result of results) {
     result.latency.average,
     result.latency.p50,
     result.latency.p90,
-    result.latency.p99
+    result.latency.p99,
+    Math.max(...result.memorySamples.map(([ts, rss]) => rss))
   ]);
 }
 
