@@ -261,6 +261,7 @@ create table forum_example.post_emoji (
 
 create index on forum_example.post_emoji(person_id);
 create index on forum_example.post_emoji(emoji_alias);
+create index on forum_example.post_emoji(created_at);
 
 alter table forum_example.post_emoji enable row level security;
 create policy select_all on forum_example.post_emoji for select using (true);

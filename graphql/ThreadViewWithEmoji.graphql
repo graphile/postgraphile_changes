@@ -1,0 +1,48 @@
+query ThreadViewWithEmoji($threadId: Int = 1004) {
+  thread: threadById(id: $threadId) {
+    nodeId
+    id
+    title
+    author: personByAuthorId {
+      nodeId
+      ...AuthorDetails
+    }
+    postCount
+    posts: postsByThreadId(first: 20) {
+      nodes {
+        nodeId
+        id
+        authorId
+        headline
+        body
+        createdAt
+        author: personByAuthorId {
+          nodeId
+          ...AuthorDetails
+        }
+        emojiLink: postEmojisByPostId(first: 100, orderBy: CREATED_AT_DESC) {
+          nodes {
+            person: personByPersonId {
+              id
+              fullName
+            }
+            emoji: emojiByEmojiAlias {
+              alias
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+fragment AuthorDetails on Person {
+  id
+  fullName
+  about
+  createdAt
+  posts: postsByAuthorId {
+    totalCount
+  }
+}
