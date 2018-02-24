@@ -41,4 +41,4 @@ insert into forum_example.post_emoji (post_id, person_id, emoji_alias)
   from generate_series(1, 10) as person_id,
   generate_series(1, 1000) as post_id,
   (select (row_number() over (order by alias)) n, alias from forum_example.emoji) moj
-  where n < 30 and (((post_id + 2) + n - person_id) % (post_id + 2)) = 1;
+  where n = 60 or n < 30 and ((11 + n - person_id) % (2 + (post_id % 11))) = 1;

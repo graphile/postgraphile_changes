@@ -276,7 +276,7 @@ create function forum_example.post_emoji_summary(p forum_example.post) returns j
     from forum_example.post_emoji
     where post_emoji.post_id = p.id
     group by post_emoji.emoji_alias
-    order by count(*) desc
+    order by count(*) desc, emoji_alias asc
     limit 20
   ) o;
 $$ language sql stable;
