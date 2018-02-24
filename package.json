@@ -8,14 +8,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run reset && npm run postgraphile",
     "reset": "./db/reset.sh",
-    "postgraphile":
-      "postgraphile -c postgres://localhost/postgraphile_changes -s forum_example",
-    "postgraphql":
-      "postgraphql -c postgres://localhost/postgraphile_changes -s forum_example"
+    "postgraphile": "postgraphile -c postgres://localhost/postgraphile_changes -s forum_example",
+    "postgraphql": "postgraphql -c postgres://localhost/postgraphile_changes -s forum_example"
   },
   "author": "Benjie Gillam <benjie@graphile.org> (https://twitter.com/Benjie)",
   "license": "MIT",
   "dependencies": {
+    "autocannon": "2.0.0",
     "postgraphile": "4.0.0-alpha2.34-pre",
     "postgraphql": "3.5.6"
   }

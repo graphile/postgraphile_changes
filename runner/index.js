@@ -1,6 +1,25 @@
 const { resolve } = require("path");
 const { spawn } = require("child_process");
-const { readdirSync, readFileSync } = require("fs");
+const { readdirSync, readFileSync, writeFileSync } = require("fs");
+const rawAutocannon = require("autocannon");
+
+const LOG_OUTPUT = false;
+
+function autocannon(opts) {
+  return new Promise((resolve, reject) => {
+    const instance = rawAutocannon(opts, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(result);
+      }
+    });
+
+    if (!LOG_OUTPUT) {
+      autocannon.track(instance, { renderProgressBar: false });
+    }
+  });
+}
 
 const QUERY_DIR = `${__dirname}/../graphql`;
 const queries = readdirSync(QUERY_DIR)
@@ -39,6 +58,7 @@ async function runProgram(
     stderr: ""
   };
   const log = channel => data => {
+    if (!LOG_OUTPUT) return;
     channels[channel] = channels[channel] + data.toString();
     const lines = channels[channel].split(/\n/);
     const last = lines.pop();
@@ -63,11 +83,59 @@ async function runProgram(
 }
 
 async function main() {
+  const allResults = [];
   for (const queryFileName in queries) {
     const query = queries[queryFileName];
+    const variables = {};
     for (const program of ["postgraphql", "postgraphile", "postgraphql"]) {
       console.log(`Running ${program} with ${queryFileName}`);
       const exitProgram = await runProgram(program);
+
+      console.log("Warmup");
+      await autocannon(
+        {
+          url: "http://localhost:5000/graphql",
+          method: "POST",
+          body: JSON.stringify({
+            query,
+            variables
+          }),
+          headers: {
+            "Content-Type": "application/json"
+          },
+          connections: 1,
+          amount: 10
+        },
+        function(err, out) {
+          results.push(out);
+          benchmark();
+        }
+      );
+      console.log();
+      console.log();
+
+      for (const concurrency of [1, 10, 100]) {
+        console.log("  Concurrency ", concurrency);
+
+        const results = await autocannon({
+          title: `${program} / ${queryFileName} / concurrency=${concurrency}`,
+          url: "http://localhost:5000/graphql",
+          method: "POST",
+          body: JSON.stringify({
+            query,
+            variables
+          }),
+          headers: {
+            "Content-Type": "application/json"
+          },
+          connections: concurrency,
+          amount: 10 + concurrency * 4
+        });
+        allResults.push(results);
+        console.log(results);
+        console.log();
+        console.log();
+      }
 
       await exitProgram();
 
@@ -78,6 +146,11 @@ async function main() {
       console.log();
     }
   }
+  console.log(allResults);
+  writeFileSync(
+    `${__dirname}/results.json`,
+    JSON.stringify(allResults, null, 2)
+  );
 }
 
 main().then(null, e => {
