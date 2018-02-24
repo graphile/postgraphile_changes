@@ -76,7 +76,6 @@ async function runProgram(
       reject(e);
     });
     child.on("exit", signal => {
-      console.log("EXIT", signal);
       if (!signal) {
         resolve();
       } else {
@@ -86,9 +85,7 @@ async function runProgram(
   });
   await sleep(1000);
   return async function() {
-    console.log("Killing child");
     child.kill("SIGTERM");
-    console.log("Returning promise");
     return exitPromise;
   };
 }
@@ -140,7 +137,9 @@ async function main() {
             "Content-Type": "application/json"
           },
           connections: concurrency,
-          amount: 10 + concurrency * 4
+          amount: 10 + concurrency * 4,
+          duration: 1000,
+          timeout: 200
         });
         allResults.push(results);
         if (LOG_OUTPUT) console.log(results);
@@ -149,9 +148,7 @@ async function main() {
       }
 
       console.log("Killing server...");
-      const p = exitProgram();
-      console.dir(p);
-      await p;
+      await exitProgram();
 
       console.log(`Sleeping...`);
       await sleep(2000);
@@ -160,7 +157,6 @@ async function main() {
       console.log();
     }
   }
-  console.log(allResults);
   writeFileSync(
     `${__dirname}/results.json`,
     JSON.stringify(allResults, null, 2)
@@ -169,9 +165,7 @@ async function main() {
 }
 
 main().then(
-  () => {
-    console.log("Complete");
-  },
+  () => {},
   e => {
     console.error("An error occurred");
     console.error(e);
