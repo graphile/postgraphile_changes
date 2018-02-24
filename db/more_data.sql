@@ -36,4 +36,9 @@ insert into forum_example.post (thread_id, author_id, headline, body, created_at
     generate_series(1000, 5000) as thread_id,
     generate_series(0, power(thread_id % 5, 3)::int) as post_number;
 
-alter sequence forum_example.post_id_seq restart with 100000000;
+insert into forum_example.post_emoji (post_id, person_id, emoji_alias)
+  select post_id, person_id, alias
+  from generate_series(1, 10) as person_id,
+  generate_series(1, 1000) as post_id,
+  (select (row_number() over (order by alias)) n, alias from forum_example.emoji) moj
+  where n < 30 and (((post_id + 2) + n - person_id) % (post_id + 2)) = 1;

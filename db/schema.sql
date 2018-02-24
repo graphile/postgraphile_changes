@@ -241,3 +241,42 @@ create policy delete_post on forum_example.post for delete to forum_example_pers
 create function forum_example.popular_threads() returns setof forum_example.thread as $$
   select thread.* from forum_example.thread inner join forum_example.post on (post.thread_id = thread.id) group by thread.id order by count(*) desc;
 $$ language sql stable;
+
+create table forum_example.emoji (
+  alias varchar(100) not null primary key,
+  url text not null
+);
+
+alter table forum_example.emoji enable row level security;
+create policy select_all on forum_example.emoji for select using (true);
+grant select on forum_example.emoji to forum_example_person;
+
+create table forum_example.post_emoji (
+  post_id int not null references forum_example.post on delete cascade,
+  person_id int not null default current_setting('jwt.claims.person_id')::integer references forum_example.person on delete cascade,
+  emoji_alias varchar(100) not null references forum_example.emoji on delete cascade,
+  created_at timestamp not null default now(),
+  primary key (post_id, person_id, emoji_alias)
+);
+
+create index on forum_example.post_emoji(person_id);
+create index on forum_example.post_emoji(emoji_alias);
+
+alter table forum_example.post_emoji enable row level security;
+create policy select_all on forum_example.post_emoji for select using (true);
+grant select on forum_example.post_emoji to forum_example_person;
+create policy insert_all on forum_example.post_emoji for insert with check (person_id = current_setting('jwt.claims.person_id')::int);
+grant insert (post_id, emoji_alias) on forum_example.post_emoji to forum_example_person;
+create policy delete_all on forum_example.post_emoji for delete using (person_id = current_setting('jwt.claims.person_id')::int);
+grant delete on forum_example.post_emoji to forum_example_person;
+
+create function forum_example.post_emoji_summary(p forum_example.post) returns json as $$
+  select json_agg(o.o) from (
+    select json_build_object('alias', emoji_alias, 'count', count(*)) o
+    from forum_example.post_emoji
+    where post_emoji.post_id = p.id
+    group by post_emoji.emoji_alias
+    order by count(*) desc
+    limit 20
+  ) o;
+$$ language sql stable;
