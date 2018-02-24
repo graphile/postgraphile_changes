@@ -1,5 +1,5 @@
---- v3-schema.graphql	2018-02-24 17:12:41.000000000 +0000
-+++ v4-schema.graphql	2018-02-24 17:12:31.000000000 +0000
+--- v3-schema.sorted.graphql	2018-02-24 17:17:56.000000000 +0000
++++ v4-schema.sorted.graphql	2018-02-24 17:18:01.000000000 +0000
 @@ -31,7 +31,7 @@
  """
  scalar BigInt
@@ -18,26 +18,21 @@
  type CreatePersonPayload {
    """
    The exact same `clientMutationId` that was provided in the mutation input,
-@@ -54,19 +54,19 @@
+@@ -54,10 +54,10 @@
    """The `Person` that was created by this mutation."""
    person: Person
  
 -  """An edge for our `Person`. May be used by Relay 1."""
--  personEdge(
--    """The method to use when ordering `Person`."""
--    orderBy: PeopleOrderBy = PRIMARY_KEY_ASC
--  ): PeopleEdge
--
-   """
-   Our root query field type. Allows us to run any query from our mutation payload.
-   """
-   query: Query
-+
 +  """An edge for the type. May be used by Relay 1."""
-+  personEdge(
-+    """The method to use when ordering `Person`."""
-+    orderBy: [PeopleOrderBy!] = PRIMARY_KEY_ASC
-+  ): PeopleEdge
+   personEdge(
+     """The method to use when ordering `Person`."""
+-    orderBy: PeopleOrderBy = PRIMARY_KEY_ASC
++    orderBy: [PeopleOrderBy!] = [PRIMARY_KEY_ASC]
+   ): PeopleEdge
+ 
+   """
+@@ -66,7 +66,7 @@
+   query: Query
  }
  
 -"""All input for the `createPost` mutation."""
@@ -54,35 +49,21 @@
  type CreatePostPayload {
    """
    The exact same `clientMutationId` that was provided in the mutation input,
-@@ -89,11 +89,10 @@
+@@ -92,10 +92,10 @@
    """The `Post` that was created by this mutation."""
    post: Post
  
 -  """An edge for our `Post`. May be used by Relay 1."""
--  postEdge(
--    """The method to use when ordering `Post`."""
--    orderBy: PostsOrderBy = PRIMARY_KEY_ASC
--  ): PostsEdge
-+  """
-+  Our root query field type. Allows us to run any query from our mutation payload.
-+  """
-+  query: Query
- 
-   """Reads a single `Thread` that is related to this `Post`."""
-   threadByThreadId: Thread
-@@ -101,13 +100,14 @@
-   """Reads a single `Person` that is related to this `Post`."""
-   personByAuthorId: Person
- 
--  """
--  Our root query field type. Allows us to run any query from our mutation payload.
--  """
--  query: Query
 +  """An edge for the type. May be used by Relay 1."""
-+  postEdge(
-+    """The method to use when ordering `Post`."""
-+    orderBy: [PostsOrderBy!] = PRIMARY_KEY_ASC
-+  ): PostsEdge
+   postEdge(
+     """The method to use when ordering `Post`."""
+-    orderBy: PostsOrderBy = PRIMARY_KEY_ASC
++    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
+   ): PostsEdge
+ 
+   """
+@@ -107,7 +107,7 @@
+   threadByThreadId: Thread
  }
  
 -"""All input for the `createThread` mutation."""
@@ -99,35 +80,19 @@
  type CreateThreadPayload {
    """
    The exact same `clientMutationId` that was provided in the mutation input,
-@@ -130,19 +130,19 @@
+@@ -138,10 +138,10 @@
    """The `Thread` that was created by this mutation."""
    thread: Thread
  
 -  """An edge for our `Thread`. May be used by Relay 1."""
--  threadEdge(
--    """The method to use when ordering `Thread`."""
--    orderBy: ThreadsOrderBy = PRIMARY_KEY_ASC
--  ): ThreadsEdge
--
--  """Reads a single `Person` that is related to this `Thread`."""
--  personByAuthorId: Person
--
-   """
-   Our root query field type. Allows us to run any query from our mutation payload.
-   """
-   query: Query
-+
-+  """Reads a single `Person` that is related to this `Thread`."""
-+  personByAuthorId: Person
-+
 +  """An edge for the type. May be used by Relay 1."""
-+  threadEdge(
-+    """The method to use when ordering `Thread`."""
-+    orderBy: [ThreadsOrderBy!] = PRIMARY_KEY_ASC
-+  ): ThreadsEdge
+   threadEdge(
+     """The method to use when ordering `Thread`."""
+-    orderBy: ThreadsOrderBy = PRIMARY_KEY_ASC
++    orderBy: [ThreadsOrderBy!] = [PRIMARY_KEY_ASC]
+   ): ThreadsEdge
  }
  
- """A location in a connection that can be used for resuming pagination."""
 @@ -161,8 +161,6 @@
    payload verbatim. May be used to track mutations by the client.
    """
@@ -137,7 +102,7 @@
    id: Int!
  }
  
-@@ -180,13 +178,15 @@
+@@ -180,7 +178,7 @@
    nodeId: ID!
  }
  
@@ -146,27 +111,23 @@
  type DeletePersonPayload {
    """
    The exact same `clientMutationId` that was provided in the mutation input,
-   unchanged and unused. May be used by a client to track mutations.
+@@ -188,8 +186,16 @@
    """
    clientMutationId: String
+   deletedPersonId: ID
 +
 +  """The `Person` that was deleted by this mutation."""
    person: Person
-   deletedPersonId: ID
  
-@@ -194,6 +194,12 @@
-   Our root query field type. Allows us to run any query from our mutation payload.
-   """
-   query: Query
-+
 +  """An edge for the type. May be used by Relay 1."""
 +  personEdge(
 +    """The method to use when ordering `Person`."""
-+    orderBy: [PeopleOrderBy!] = PRIMARY_KEY_ASC
++    orderBy: [PeopleOrderBy!] = [PRIMARY_KEY_ASC]
 +  ): PeopleEdge
- }
- 
- """All input for the `deletePostById` mutation."""
++
+   """
+   Our root query field type. Allows us to run any query from our mutation payload.
+   """
 @@ -203,8 +209,6 @@
    payload verbatim. May be used to track mutations by the client.
    """
@@ -176,7 +137,7 @@
    id: Int!
  }
  
-@@ -222,26 +226,34 @@
+@@ -222,7 +226,7 @@
    nodeId: ID!
  }
  
@@ -185,38 +146,24 @@
  type DeletePostPayload {
    """
    The exact same `clientMutationId` that was provided in the mutation input,
-   unchanged and unused. May be used by a client to track mutations.
-   """
-   clientMutationId: String
-+
-+  """The `Post` that was deleted by this mutation."""
-   post: Post
-   deletedPostId: ID
- 
-+  """
-+  Our root query field type. Allows us to run any query from our mutation payload.
-+  """
-+  query: Query
-+
-   """Reads a single `Thread` that is related to this `Post`."""
-   threadByThreadId: Thread
+@@ -233,8 +237,16 @@
  
    """Reads a single `Person` that is related to this `Post`."""
    personByAuthorId: Person
++
++  """The `Post` that was deleted by this mutation."""
+   post: Post
  
--  """
--  Our root query field type. Allows us to run any query from our mutation payload.
--  """
--  query: Query
 +  """An edge for the type. May be used by Relay 1."""
 +  postEdge(
 +    """The method to use when ordering `Post`."""
-+    orderBy: [PostsOrderBy!] = PRIMARY_KEY_ASC
++    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
 +  ): PostsEdge
- }
- 
- """All input for the `deleteThreadById` mutation."""
-@@ -268,23 +280,31 @@
++
+   """
+   Our root query field type. Allows us to run any query from our mutation payload.
+   """
+@@ -268,7 +280,7 @@
    nodeId: ID!
  }
  
@@ -225,343 +172,57 @@
  type DeleteThreadPayload {
    """
    The exact same `clientMutationId` that was provided in the mutation input,
-   unchanged and unused. May be used by a client to track mutations.
-   """
-   clientMutationId: String
-+
-+  """The `Thread` that was deleted by this mutation."""
-   thread: Thread
-   deletedThreadId: ID
- 
--  """Reads a single `Person` that is related to this `Thread`."""
--  personByAuthorId: Person
--
-   """
+@@ -284,7 +296,15 @@
    Our root query field type. Allows us to run any query from our mutation payload.
    """
    query: Query
 +
-+  """Reads a single `Person` that is related to this `Thread`."""
-+  personByAuthorId: Person
++  """The `Thread` that was deleted by this mutation."""
+   thread: Thread
 +
 +  """An edge for the type. May be used by Relay 1."""
 +  threadEdge(
 +    """The method to use when ordering `Thread`."""
-+    orderBy: [ThreadsOrderBy!] = PRIMARY_KEY_ASC
++    orderBy: [ThreadsOrderBy!] = [PRIMARY_KEY_ASC]
 +  ): ThreadsEdge
  }
  
  type JwtToken {
-@@ -296,31 +316,29 @@
- The root mutation type which contains root level fields which mutate data.
- """
- type Mutation {
--  """
--  Creates a JWT token that will securely identify a person and give them certain permissions.
--  """
--  authenticate(
-+  """Creates a single `Person`."""
-+  createPerson(
-     """
-     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-     """
--    input: AuthenticateInput!
--  ): AuthenticatePayload
-+    input: CreatePersonInput!
-+  ): CreatePersonPayload
- 
--  """Registers a single user and creates an account in our forum."""
--  registerPerson(
-+  """Creates a single `Post`."""
-+  createPost(
-     """
-     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-     """
--    input: RegisterPersonInput!
--  ): RegisterPersonPayload
-+    input: CreatePostInput!
-+  ): CreatePostPayload
- 
--  """Creates a single `Person`."""
--  createPerson(
-+  """Creates a single `Thread`."""
-+  createThread(
-     """
-     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-     """
--    input: CreatePersonInput!
--  ): CreatePersonPayload
-+    input: CreateThreadInput!
-+  ): CreateThreadPayload
- 
-   """Updates a single `Person` using its globally unique id and a patch."""
-   updatePerson(
-@@ -338,30 +356,6 @@
-     input: UpdatePersonByIdInput!
-   ): UpdatePersonPayload
- 
--  """Deletes a single `Person` using its globally unique id."""
--  deletePerson(
--    """
--    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
--    """
--    input: DeletePersonInput!
--  ): DeletePersonPayload
--
--  """Deletes a single `Person` using a unique key."""
--  deletePersonById(
--    """
--    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
--    """
--    input: DeletePersonByIdInput!
--  ): DeletePersonPayload
--
--  """Creates a single `Post`."""
--  createPost(
--    """
--    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
--    """
--    input: CreatePostInput!
--  ): CreatePostPayload
--
-   """Updates a single `Post` using its globally unique id and a patch."""
-   updatePost(
-     """
-@@ -378,45 +372,53 @@
-     input: UpdatePostByIdInput!
-   ): UpdatePostPayload
- 
--  """Deletes a single `Post` using its globally unique id."""
--  deletePost(
-+  """Updates a single `Thread` using its globally unique id and a patch."""
-+  updateThread(
-     """
-     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-     """
--    input: DeletePostInput!
--  ): DeletePostPayload
-+    input: UpdateThreadInput!
-+  ): UpdateThreadPayload
- 
--  """Deletes a single `Post` using a unique key."""
--  deletePostById(
-+  """Updates a single `Thread` using a unique key and a patch."""
-+  updateThreadById(
-     """
-     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-     """
--    input: DeletePostByIdInput!
--  ): DeletePostPayload
-+    input: UpdateThreadByIdInput!
-+  ): UpdateThreadPayload
- 
--  """Creates a single `Thread`."""
--  createThread(
-+  """Deletes a single `Person` using its globally unique id."""
-+  deletePerson(
-     """
-     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-     """
--    input: CreateThreadInput!
--  ): CreateThreadPayload
-+    input: DeletePersonInput!
-+  ): DeletePersonPayload
- 
--  """Updates a single `Thread` using its globally unique id and a patch."""
--  updateThread(
-+  """Deletes a single `Person` using a unique key."""
-+  deletePersonById(
-     """
-     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-     """
--    input: UpdateThreadInput!
--  ): UpdateThreadPayload
-+    input: DeletePersonByIdInput!
-+  ): DeletePersonPayload
- 
--  """Updates a single `Thread` using a unique key and a patch."""
--  updateThreadById(
-+  """Deletes a single `Post` using its globally unique id."""
-+  deletePost(
-     """
-     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-     """
--    input: UpdateThreadByIdInput!
--  ): UpdateThreadPayload
-+    input: DeletePostInput!
-+  ): DeletePostPayload
-+
-+  """Deletes a single `Post` using a unique key."""
-+  deletePostById(
-+    """
-+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-+    """
-+    input: DeletePostByIdInput!
-+  ): DeletePostPayload
- 
-   """Deletes a single `Thread` using its globally unique id."""
-   deleteThread(
-@@ -433,6 +435,24 @@
-     """
-     input: DeleteThreadByIdInput!
-   ): DeleteThreadPayload
-+
-+  """
-+  Creates a JWT token that will securely identify a person and give them certain permissions.
-+  """
-+  authenticate(
-+    """
-+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-+    """
-+    input: AuthenticateInput!
-+  ): AuthenticatePayload
-+
-+  """Registers a single user and creates an account in our forum."""
-+  registerPerson(
-+    """
-+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-+    """
-+    input: RegisterPersonInput!
-+  ): RegisterPersonPayload
- }
- 
- """An object with a globally unique `ID`."""
-@@ -460,19 +480,19 @@
- 
- """A connection to a list of `Person` values."""
- type PeopleConnection {
--  """Information to aid in pagination."""
--  pageInfo: PageInfo!
--
--  """The count of *all* `Person` you could get from the connection."""
--  totalCount: Int
-+  """A list of `Person` objects."""
-+  nodes: [Person]!
- 
+@@ -463,10 +483,10 @@
    """
    A list of edges which contains the `Person` and cursor to aid in pagination.
    """
 -  edges: [PeopleEdge]
 +  edges: [PeopleEdge!]!
  
--  """A list of `Person` objects."""
+   """A list of `Person` objects."""
 -  nodes: [Person!]
-+  """Information to aid in pagination."""
-+  pageInfo: PageInfo!
-+
-+  """The count of *all* `Person` you could get from the connection."""
-+  totalCount: Int
- }
++  nodes: [Person]!
  
- """A `Person` edge in the connection."""
-@@ -486,8 +506,6 @@
+   """Information to aid in pagination."""
+   pageInfo: PageInfo!
+@@ -559,8 +579,8 @@
+     offset: Int
  
- """Methods to use when ordering `Person`."""
- enum PeopleOrderBy {
--  PRIMARY_KEY_ASC
--  PRIMARY_KEY_DESC
-   NATURAL
-   ID_ASC
-   ID_DESC
-@@ -501,6 +519,8 @@
-   CREATED_AT_DESC
-   UPDATED_AT_ASC
-   UPDATED_AT_DESC
-+  PRIMARY_KEY_ASC
-+  PRIMARY_KEY_DESC
- }
+     """The method to use when ordering `Post`."""
+-    orderBy: PostsOrderBy = PRIMARY_KEY_ASC
+-  ): PostsConnection
++    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
++  ): PostsConnection!
  
- """A user of the forum."""
-@@ -526,25 +546,8 @@
-   createdAt: Datetime
-   updatedAt: Datetime
- 
--  """
--  A person’s full name which is a concatenation of their first and last name.
--  """
--  fullName: String
--
--  """Gets the latest post written by the person."""
--  latestPost: Post
--
    """Reads and enables pagination through a set of `Thread`."""
    threadsByAuthorId(
--    """The method to use when ordering `Thread`."""
+@@ -588,8 +608,8 @@
+     offset: Int
+ 
+     """The method to use when ordering `Thread`."""
 -    orderBy: ThreadsOrderBy = PRIMARY_KEY_ASC
--
--    """Read all values in the set before (above) this cursor."""
--    before: Cursor
--
--    """Read all values in the set after (below) this cursor."""
--    after: Cursor
--
-     """Only read the first `n` values of the set."""
-     first: Int
- 
-@@ -557,23 +560,23 @@
-     """
-     offset: Int
- 
-+    """Read all values in the set before (above) this cursor."""
-+    before: Cursor
-+
-+    """Read all values in the set after (below) this cursor."""
-+    after: Cursor
-+
-+    """The method to use when ordering `Thread`."""
-+    orderBy: [ThreadsOrderBy!] = [PRIMARY_KEY_ASC]
-+
-     """
-     A condition to be used in determining which values should be returned by the collection.
-     """
-     condition: ThreadCondition
 -  ): ThreadsConnection
++    orderBy: [ThreadsOrderBy!] = [PRIMARY_KEY_ASC]
 +  ): ThreadsConnection!
- 
-   """Reads and enables pagination through a set of `Post`."""
-   postsByAuthorId(
--    """The method to use when ordering `Post`."""
--    orderBy: PostsOrderBy = PRIMARY_KEY_ASC
--
--    """Read all values in the set before (above) this cursor."""
--    before: Cursor
--
--    """Read all values in the set after (below) this cursor."""
--    after: Cursor
--
-     """Only read the first `n` values of the set."""
-     first: Int
- 
-@@ -586,11 +589,28 @@
-     """
-     offset: Int
- 
-+    """Read all values in the set before (above) this cursor."""
-+    before: Cursor
-+
-+    """Read all values in the set after (below) this cursor."""
-+    after: Cursor
-+
-+    """The method to use when ordering `Post`."""
-+    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
-+
-     """
-     A condition to be used in determining which values should be returned by the collection.
-     """
-     condition: PostCondition
--  ): PostsConnection
-+  ): PostsConnection!
-+
-+  """
-+  A person’s full name which is a concatenation of their first and last name.
-+  """
-+  fullName: String
-+
-+  """Gets the latest post written by the person."""
-+  latestPost: Post
+   updatedAt: Datetime
  }
  
- """
 @@ -616,7 +636,7 @@
    updatedAt: Datetime
  }
@@ -569,26 +230,8 @@
 -"""A user of the forum."""
 +"""An input for mutations affecting `Person`"""
  input PersonInput {
-   """The primary unique identifier for the person."""
-   id: Int
-@@ -682,14 +702,14 @@
-   createdAt: Datetime
-   updatedAt: Datetime
- 
--  """A truncated version of the body for summaries."""
--  summary(length: Int, omission: String): String
--
-   """Reads a single `Thread` that is related to this `Post`."""
-   threadByThreadId: Thread
- 
-   """Reads a single `Person` that is related to this `Post`."""
-   personByAuthorId: Person
-+
-+  """A truncated version of the body for summaries."""
-+  summary(length: Int, omission: String): String
- }
- 
- """
+   """A short description about the user, written by the user."""
+   about: String
 @@ -718,7 +738,7 @@
    updatedAt: Datetime
  }
@@ -596,298 +239,99 @@
 -"""A forum post written by a user."""
 +"""An input for mutations affecting `Post`"""
  input PostInput {
-   """The primary key for the post."""
-   id: Int
-@@ -766,19 +786,19 @@
- 
- """A connection to a list of `Post` values."""
- type PostsConnection {
--  """Information to aid in pagination."""
--  pageInfo: PageInfo!
--
--  """The count of *all* `Post` you could get from the connection."""
--  totalCount: Int
-+  """A list of `Post` objects."""
-+  nodes: [Post]!
- 
+   """The id of the author user."""
+   authorId: Int!
+@@ -769,10 +789,10 @@
    """
    A list of edges which contains the `Post` and cursor to aid in pagination.
    """
 -  edges: [PostsEdge]
 +  edges: [PostsEdge!]!
  
--  """A list of `Post` objects."""
+   """A list of `Post` objects."""
 -  nodes: [Post!]
-+  """Information to aid in pagination."""
-+  pageInfo: PageInfo!
-+
-+  """The count of *all* `Post` you could get from the connection."""
-+  totalCount: Int
- }
++  nodes: [Post]!
  
- """A `Post` edge in the connection."""
-@@ -792,8 +812,6 @@
- 
- """Methods to use when ordering `Post`."""
- enum PostsOrderBy {
--  PRIMARY_KEY_ASC
--  PRIMARY_KEY_DESC
-   NATURAL
-   ID_ASC
-   ID_DESC
-@@ -809,30 +827,31 @@
-   CREATED_AT_DESC
-   UPDATED_AT_ASC
-   UPDATED_AT_DESC
-+  PRIMARY_KEY_ASC
-+  PRIMARY_KEY_DESC
- }
- 
- """The root query type which gives access points into the data universe."""
- type Query implements Node {
-+  """
-+  Exposes the root query type nested one level down. This is helpful for Relay 1
-+  which can only query top level fields if they are in a particular form.
-+  """
-+  query: Query!
-+
-+  """
-+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
-+  """
-+  nodeId: ID!
-+
-   """Fetches an object given its globally unique `ID`."""
-   node(
-     """The globally unique `ID`."""
-     nodeId: ID!
-   ): Node
- 
--  """Gets the person who was identified by our JWT."""
--  currentPerson: Person
--
--  """Returns posts containing a given search term."""
--  searchPosts(
--    """The method to use when ordering `Post`."""
--    orderBy: SearchPostsOrderBy = NATURAL
--
--    """Read all values in the set before (above) this cursor."""
--    before: Cursor
--
--    """Read all values in the set after (below) this cursor."""
--    after: Cursor
--
-+  """Reads and enables pagination through a set of `Person`."""
-+  allPeople(
-     """Only read the first `n` values of the set."""
-     first: Int
- 
-@@ -844,13 +863,6 @@
-     based pagination. May not be used with `last`.
-     """
+   """Information to aid in pagination."""
+   pageInfo: PageInfo!
+@@ -839,7 +859,7 @@
      offset: Int
--    search: String
--  ): SearchPostsConnection
--
--  """Reads and enables pagination through a set of `Person`."""
--  allPeople(
--    """The method to use when ordering `Person`."""
+ 
+     """The method to use when ordering `Person`."""
 -    orderBy: PeopleOrderBy = PRIMARY_KEY_ASC
- 
-     """Read all values in the set before (above) this cursor."""
-     before: Cursor
-@@ -858,17 +870,8 @@
-     """Read all values in the set after (below) this cursor."""
-     after: Cursor
- 
--    """Only read the first `n` values of the set."""
--    first: Int
--
--    """Only read the last `n` values of the set."""
--    last: Int
--
--    """
--    Skip the first `n` values from our `after` cursor, an alternative to cursor
--    based pagination. May not be used with `last`.
--    """
--    offset: Int
-+    """The method to use when ordering `Person`."""
 +    orderBy: [PeopleOrderBy!] = [PRIMARY_KEY_ASC]
- 
-     """
-     A condition to be used in determining which values should be returned by the collection.
-@@ -876,27 +879,8 @@
-     condition: PersonCondition
    ): PeopleConnection
  
--  """Reads a single `Person` using its globally unique `ID`."""
--  person(
--    """The globally unique `ID` to be used in selecting a single `Person`."""
--    nodeId: ID!
--  ): Person
+   """Reads and enables pagination through a set of `Post`."""
+@@ -868,7 +888,7 @@
+     offset: Int
+ 
+     """The method to use when ordering `Post`."""
+-    orderBy: PostsOrderBy = PRIMARY_KEY_ASC
++    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
+   ): PostsConnection
+ 
+   """Reads and enables pagination through a set of `Thread`."""
+@@ -897,7 +917,7 @@
+     offset: Int
+ 
+     """The method to use when ordering `Thread`."""
+-    orderBy: ThreadsOrderBy = PRIMARY_KEY_ASC
++    orderBy: [ThreadsOrderBy!] = [PRIMARY_KEY_ASC]
+   ): ThreadsConnection
+ 
+   """Gets the person who was identified by our JWT."""
+@@ -919,20 +939,14 @@
+     """The globally unique `ID` to be used in selecting a single `Person`."""
+     nodeId: ID!
+   ): Person
 -  personById(
 -    """The primary unique identifier for the person."""
 -    id: Int!
 -  ): Person
--
-   """Reads and enables pagination through a set of `Post`."""
-   allPosts(
--    """The method to use when ordering `Post`."""
--    orderBy: PostsOrderBy = PRIMARY_KEY_ASC
--
--    """Read all values in the set before (above) this cursor."""
--    before: Cursor
--
--    """Read all values in the set after (below) this cursor."""
--    after: Cursor
--
-     """Only read the first `n` values of the set."""
-     first: Int
++  personById(id: Int!): Person
  
-@@ -909,26 +893,34 @@
-     """
-     offset: Int
- 
-+    """Read all values in the set before (above) this cursor."""
-+    before: Cursor
-+
-+    """Read all values in the set after (below) this cursor."""
-+    after: Cursor
-+
-+    """The method to use when ordering `Post`."""
-+    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
-+
-     """
-     A condition to be used in determining which values should be returned by the collection.
-     """
-     condition: PostCondition
-   ): PostsConnection
- 
--  """Reads a single `Post` using its globally unique `ID`."""
--  post(
--    """The globally unique `ID` to be used in selecting a single `Post`."""
--    nodeId: ID!
--  ): Post
+   """Reads a single `Post` using its globally unique `ID`."""
+   post(
+     """The globally unique `ID` to be used in selecting a single `Post`."""
+     nodeId: ID!
+   ): Post
 -  postById(
 -    """The primary key for the post."""
 -    id: Int!
 -  ): Post
--
-   """Reads and enables pagination through a set of `Thread`."""
-   allThreads(
--    """The method to use when ordering `Thread`."""
--    orderBy: ThreadsOrderBy = PRIMARY_KEY_ASC
-+    """Only read the first `n` values of the set."""
-+    first: Int
-+
-+    """Only read the last `n` values of the set."""
-+    last: Int
-+
-+    """
-+    Skip the first `n` values from our `after` cursor, an alternative to cursor
-+    based pagination. May not be used with `last`.
-+    """
-+    offset: Int
- 
-     """Read all values in the set before (above) this cursor."""
-     before: Cursor
-@@ -936,6 +928,25 @@
-     """Read all values in the set after (below) this cursor."""
-     after: Cursor
- 
-+    """The method to use when ordering `Thread`."""
-+    orderBy: [ThreadsOrderBy!] = [PRIMARY_KEY_ASC]
-+
-+    """
-+    A condition to be used in determining which values should be returned by the collection.
-+    """
-+    condition: ThreadCondition
-+  ): ThreadsConnection
-+  personById(id: Int!): Person
 +  postById(id: Int!): Post
-+  threadById(id: Int!): Thread
-+
-+  """Gets the person who was identified by our JWT."""
-+  currentPerson: Person
-+
-+  """Returns posts containing a given search term."""
-+  searchPosts(
-+    search: String
-+
-     """Only read the first `n` values of the set."""
-     first: Int
  
-@@ -948,29 +959,30 @@
+   """
+   Exposes the root query type nested one level down. This is helpful for Relay 1
+@@ -959,11 +973,8 @@
+     based pagination. May not be used with `last`.
      """
      offset: Int
- 
--    """
--    A condition to be used in determining which values should be returned by the collection.
--    """
--    condition: ThreadCondition
--  ): ThreadsConnection
-+    """Read all values in the set before (above) this cursor."""
-+    before: Cursor
-+
-+    """Read all values in the set after (below) this cursor."""
-+    after: Cursor
+-
+-    """The method to use when ordering `Post`."""
+-    orderBy: SearchPostsOrderBy = NATURAL
+     search: String
+-  ): SearchPostsConnection
 +  ): PostsConnection!
-+
-+  """Reads a single `Person` using its globally unique `ID`."""
-+  person(
-+    """The globally unique `ID` to be used in selecting a single `Person`."""
-+    nodeId: ID!
-+  ): Person
-+
-+  """Reads a single `Post` using its globally unique `ID`."""
-+  post(
-+    """The globally unique `ID` to be used in selecting a single `Post`."""
-+    nodeId: ID!
-+  ): Post
  
    """Reads a single `Thread` using its globally unique `ID`."""
    thread(
-     """The globally unique `ID` to be used in selecting a single `Thread`."""
-     nodeId: ID!
-   ): Thread
--  threadById(id: Int!): Thread
--
--  """
--  Exposes the root query type nested one level down. This is helpful for Relay 1
--  which can only query top level fields if they are in a particular form.
--  """
--  query: Query!
--
--  """
--  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
--  """
--  nodeId: ID!
+@@ -998,7 +1009,7 @@
+   """An edge for the type. May be used by Relay 1."""
+   personEdge(
+     """The method to use when ordering `Person`."""
+-    orderBy: PeopleOrderBy = PRIMARY_KEY_ASC
++    orderBy: [PeopleOrderBy!] = [PRIMARY_KEY_ASC]
+   ): PeopleEdge
+ 
+   """
+@@ -1007,37 +1018,6 @@
+   query: Query
  }
  
- """All input for the `registerPerson` mutation."""
-@@ -995,47 +1007,16 @@
-   clientMutationId: String
-   person: Person
- 
--  """An edge for the type. May be used by Relay 1."""
--  personEdge(
--    """The method to use when ordering `Person`."""
--    orderBy: PeopleOrderBy = PRIMARY_KEY_ASC
--  ): PeopleEdge
--
-   """
-   Our root query field type. Allows us to run any query from our mutation payload.
-   """
-   query: Query
--}
--
 -"""A connection to a list of `Post` values."""
 -type SearchPostsConnection {
--  """Information to aid in pagination."""
--  pageInfo: PageInfo!
--
--  """The count of *all* `Post` you could get from the connection."""
--  totalCount: Int
--
 -  """
 -  A list of edges which contains the `Post` and cursor to aid in pagination.
 -  """
@@ -895,6 +339,12 @@
 -
 -  """A list of `Post` objects."""
 -  nodes: [Post]
+-
+-  """Information to aid in pagination."""
+-  pageInfo: PageInfo!
+-
+-  """The count of *all* `Post` you could get from the connection."""
+-  totalCount: Int
 -}
 -
 -"""A `Post` edge in the connection."""
@@ -905,135 +355,62 @@
 -  """The `Post` at the end of the edge."""
 -  node: Post
 -}
- 
+-
 -"""Methods to use when ordering `Post`."""
 -enum SearchPostsOrderBy {
 -  NATURAL
-+  """An edge for the type. May be used by Relay 1."""
-+  personEdge(
-+    """The method to use when ordering `Person`."""
-+    orderBy: [PeopleOrderBy!] = PRIMARY_KEY_ASC
-+  ): PeopleEdge
- }
- 
+-}
+-
  type Thread implements Node {
-@@ -1049,22 +1030,12 @@
-   title: String!
+   authorId: Int!
    body: String
-   createdAt: Datetime
--  postCount: BigInt
- 
-   """Reads a single `Person` that is related to this `Thread`."""
-   personByAuthorId: Person
- 
-   """Reads and enables pagination through a set of `Post`."""
-   postsByThreadId(
--    """The method to use when ordering `Post`."""
--    orderBy: PostsOrderBy = PRIMARY_KEY_ASC
--
--    """Read all values in the set before (above) this cursor."""
--    before: Cursor
--
--    """Read all values in the set after (below) this cursor."""
--    after: Cursor
--
-     """Only read the first `n` values of the set."""
-     first: Int
- 
-@@ -1077,11 +1048,21 @@
-     """
+@@ -1079,8 +1059,8 @@
      offset: Int
  
-+    """Read all values in the set before (above) this cursor."""
-+    before: Cursor
-+
-+    """Read all values in the set after (below) this cursor."""
-+    after: Cursor
-+
-+    """The method to use when ordering `Post`."""
-+    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
-+
-     """
-     A condition to be used in determining which values should be returned by the collection.
-     """
-     condition: PostCondition
+     """The method to use when ordering `Post`."""
+-    orderBy: PostsOrderBy = PRIMARY_KEY_ASC
 -  ): PostsConnection
++    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
 +  ): PostsConnection!
-+  postCount: BigInt
+   title: String!
+   topic: Topic
  }
- 
- """
-@@ -1107,6 +1088,7 @@
-   createdAt: Datetime
+@@ -1108,6 +1088,7 @@
+   topic: Topic
  }
  
 +"""An input for mutations affecting `Thread`"""
  input ThreadInput {
-   id: Int
    authorId: Int!
-@@ -1130,19 +1112,19 @@
- 
- """A connection to a list of `Thread` values."""
- type ThreadsConnection {
--  """Information to aid in pagination."""
--  pageInfo: PageInfo!
--
--  """The count of *all* `Thread` you could get from the connection."""
--  totalCount: Int
-+  """A list of `Thread` objects."""
-+  nodes: [Thread]!
- 
+   body: String
+@@ -1134,10 +1115,10 @@
    """
    A list of edges which contains the `Thread` and cursor to aid in pagination.
    """
 -  edges: [ThreadsEdge]
 +  edges: [ThreadsEdge!]!
  
--  """A list of `Thread` objects."""
+   """A list of `Thread` objects."""
 -  nodes: [Thread!]
-+  """Information to aid in pagination."""
-+  pageInfo: PageInfo!
-+
-+  """The count of *all* `Thread` you could get from the connection."""
-+  totalCount: Int
- }
++  nodes: [Thread]!
  
- """A `Thread` edge in the connection."""
-@@ -1156,8 +1138,6 @@
- 
- """Methods to use when ordering `Thread`."""
- enum ThreadsOrderBy {
--  PRIMARY_KEY_ASC
--  PRIMARY_KEY_DESC
-   NATURAL
-   ID_ASC
-   ID_DESC
-@@ -1171,6 +1151,8 @@
-   BODY_DESC
-   CREATED_AT_ASC
-   CREATED_AT_DESC
-+  PRIMARY_KEY_ASC
-+  PRIMARY_KEY_DESC
- }
- 
- enum Topic {
-@@ -1188,13 +1170,11 @@
+   """Information to aid in pagination."""
+   pageInfo: PageInfo!
+@@ -1188,12 +1169,10 @@
+   payload verbatim. May be used to track mutations by the client.
    """
    clientMutationId: String
- 
--  """The primary unique identifier for the person."""
--  id: Int!
 -
+-  """The primary unique identifier for the person."""
+   id: Int!
+ 
    """
 -  An object where the defined keys will be set on the `Person` identified by our unique key.
 +  An object where the defined keys will be set on the `Person` being updated.
    """
    personPatch: PersonPatch!
-+  id: Int!
  }
- 
- """All input for the `updatePerson` mutation."""
-@@ -1211,24 +1191,32 @@
+@@ -1212,20 +1191,28 @@
    nodeId: ID!
  
    """
@@ -1055,36 +432,30 @@
 +  """The `Person` that was updated by this mutation."""
    person: Person
  
-   """
-   Our root query field type. Allows us to run any query from our mutation payload.
-   """
-   query: Query
-+
 +  """An edge for the type. May be used by Relay 1."""
 +  personEdge(
 +    """The method to use when ordering `Person`."""
-+    orderBy: [PeopleOrderBy!] = PRIMARY_KEY_ASC
++    orderBy: [PeopleOrderBy!] = [PRIMARY_KEY_ASC]
 +  ): PeopleEdge
- }
- 
- """All input for the `updatePostById` mutation."""
-@@ -1239,13 +1227,11 @@
++
+   """
+   Our root query field type. Allows us to run any query from our mutation payload.
+   """
+@@ -1239,12 +1226,10 @@
+   payload verbatim. May be used to track mutations by the client.
    """
    clientMutationId: String
- 
--  """The primary key for the post."""
--  id: Int!
 -
+-  """The primary key for the post."""
+   id: Int!
+ 
    """
 -  An object where the defined keys will be set on the `Post` identified by our unique key.
 +  An object where the defined keys will be set on the `Post` being updated.
    """
    postPatch: PostPatch!
-+  id: Int!
  }
- 
- """All input for the `updatePost` mutation."""
-@@ -1262,30 +1248,38 @@
+@@ -1263,12 +1248,12 @@
    nodeId: ID!
  
    """
@@ -1099,52 +470,33 @@
  type UpdatePostPayload {
    """
    The exact same `clientMutationId` that was provided in the mutation input,
-   unchanged and unused. May be used by a client to track mutations.
-   """
-   clientMutationId: String
+@@ -1278,8 +1263,16 @@
+ 
+   """Reads a single `Person` that is related to this `Post`."""
+   personByAuthorId: Person
 +
 +  """The `Post` that was updated by this mutation."""
    post: Post
  
-+  """
-+  Our root query field type. Allows us to run any query from our mutation payload.
-+  """
-+  query: Query
-+
-   """Reads a single `Thread` that is related to this `Post`."""
-   threadByThreadId: Thread
- 
-   """Reads a single `Person` that is related to this `Post`."""
-   personByAuthorId: Person
- 
--  """
--  Our root query field type. Allows us to run any query from our mutation payload.
--  """
--  query: Query
 +  """An edge for the type. May be used by Relay 1."""
 +  postEdge(
 +    """The method to use when ordering `Post`."""
-+    orderBy: [PostsOrderBy!] = PRIMARY_KEY_ASC
++    orderBy: [PostsOrderBy!] = [PRIMARY_KEY_ASC]
 +  ): PostsEdge
- }
- 
- """All input for the `updateThreadById` mutation."""
-@@ -1295,12 +1289,12 @@
-   payload verbatim. May be used to track mutations by the client.
++
    """
-   clientMutationId: String
--  id: Int!
+   Our root query field type. Allows us to run any query from our mutation payload.
+   """
+@@ -1299,7 +1292,7 @@
+   id: Int!
  
    """
 -  An object where the defined keys will be set on the `Thread` identified by our unique key.
 +  An object where the defined keys will be set on the `Thread` being updated.
    """
    threadPatch: ThreadPatch!
-+  id: Int!
  }
- 
- """All input for the `updateThread` mutation."""
-@@ -1317,25 +1311,33 @@
+@@ -1318,12 +1311,12 @@
    nodeId: ID!
  
    """
@@ -1159,27 +511,18 @@
  type UpdateThreadPayload {
    """
    The exact same `clientMutationId` that was provided in the mutation input,
-   unchanged and unused. May be used by a client to track mutations.
-   """
-   clientMutationId: String
--  thread: Thread
- 
--  """Reads a single `Person` that is related to this `Thread`."""
--  personByAuthorId: Person
-+  """The `Thread` that was updated by this mutation."""
-+  thread: Thread
- 
-   """
+@@ -1338,6 +1331,14 @@
    Our root query field type. Allows us to run any query from our mutation payload.
    """
    query: Query
 +
-+  """Reads a single `Person` that is related to this `Thread`."""
-+  personByAuthorId: Person
++  """The `Thread` that was updated by this mutation."""
+   thread: Thread
 +
 +  """An edge for the type. May be used by Relay 1."""
 +  threadEdge(
 +    """The method to use when ordering `Thread`."""
-+    orderBy: [ThreadsOrderBy!] = PRIMARY_KEY_ASC
++    orderBy: [ThreadsOrderBy!] = [PRIMARY_KEY_ASC]
 +  ): ThreadsEdge
  }
+ 
