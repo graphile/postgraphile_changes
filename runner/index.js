@@ -89,16 +89,17 @@ async function runProgram(
   };
   child.stdout.on("data", log("stdout"));
   child.stderr.on("data", log("stderr"));
-  const exitPromise = new Promise((resolve, reject) => {
+  const exitPromise = new Promise(resolve => {
     child.on("error", e => {
       console.error("ERROR", e);
-      reject(e);
+      process.exit(1);
     });
     child.on("exit", signal => {
       if (!signal) {
         resolve();
       } else {
-        reject(new Error("Signal " + signal));
+        console.error("ERROR", signal);
+        process.exit(2);
       }
     });
   });
