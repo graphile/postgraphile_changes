@@ -5,8 +5,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postgraphile": "postgraphile",
+    "postgraphql": "postgraphql"
   },
   "author": "Benjie Gillam <benjie@graphile.org> (https://twitter.com/Benjie)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "postgraphile": "4.0.0-alpha2.34-pre",
+    "postgraphql": "3.5.6"
+  }
 }
