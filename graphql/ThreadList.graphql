@@ -1,5 +1,5 @@
 query ThreadList($offset: Int) {
-  allThreads(first: 100, offset: $offset) {
+  allThreads(first: 20, offset: $offset) {
     nodes {
       nodeId
       id
@@ -9,19 +9,6 @@ query ThreadList($offset: Int) {
         ...AuthorDetails
       }
       postCount
-      postsByThreadId(first: 1) {
-        nodes {
-          nodeId
-          id
-          authorId
-          headline
-          summary
-          author: personByAuthorId {
-            nodeId
-            ...AuthorDetails
-          }
-        }
-      }
     }
   }
 }

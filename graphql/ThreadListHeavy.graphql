@@ -1,0 +1,33 @@
+query ThreadList($offset: Int) {
+  allThreads(first: 200, offset: $offset) {
+    nodes {
+      nodeId
+      id
+      title
+      author: personByAuthorId {
+        nodeId
+        ...AuthorDetails
+      }
+      postCount
+      postsByThreadId(first: 1) {
+        nodes {
+          nodeId
+          id
+          authorId
+          headline
+          summary
+          author: personByAuthorId {
+            nodeId
+            ...AuthorDetails
+          }
+        }
+      }
+    }
+  }
+}
+
+fragment AuthorDetails on Person {
+  id
+  fullName
+  about
+}

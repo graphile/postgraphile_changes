@@ -1,0 +1,36 @@
+query ThreadView($threadId: Int = 1004) {
+  thread: threadById(id: $threadId) {
+    nodeId
+    id
+    title
+    author: personByAuthorId {
+      nodeId
+      ...AuthorDetails
+    }
+    postCount
+    posts: postsByThreadId(first: 20) {
+      nodes {
+        nodeId
+        id
+        authorId
+        headline
+        body
+        createdAt
+        author: personByAuthorId {
+          nodeId
+          ...AuthorDetails
+        }
+      }
+    }
+  }
+}
+
+fragment AuthorDetails on Person {
+  id
+  fullName
+  about
+  createdAt
+  posts: postsByAuthorId {
+    totalCount
+  }
+}

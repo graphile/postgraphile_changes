@@ -1,0 +1,29 @@
+query ProfileView($personId: Int = 1101) {
+  personById(id: $personId) {
+    nodeId
+    id
+    firstName
+    lastName
+    fullName
+    about
+    createdAt
+    latestPost {
+      nodeId
+      id
+      thread: threadByThreadId {
+        nodeId
+        id
+        title
+        postCount
+        topic
+        createdAt
+      }
+      headline
+      summary
+      createdAt
+    }
+    posts: postsByAuthorId {
+      totalCount
+    }
+  }
+}
