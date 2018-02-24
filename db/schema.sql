@@ -34,6 +34,8 @@ create table forum_example.thread (
   created_at       timestamp default now()
 );
 
+create index on forum_example.thread(author_id);
+
 
 create table forum_example.post (
   id               serial primary key,
@@ -43,6 +45,8 @@ create table forum_example.post (
   body             text,
   created_at       timestamp default now()
 );
+create index on forum_example.post(thread_id);
+create index on forum_example.post(author_id);
 
 comment on table forum_example.post is 'A forum post written by a user.';
 comment on column forum_example.post.id is 'The primary key for the post.';
