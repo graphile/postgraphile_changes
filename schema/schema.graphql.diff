@@ -1,5 +1,5 @@
---- v3-schema.sorted.graphql	2018-02-24 17:17:56.000000000 +0000
-+++ v4-schema.sorted.graphql	2018-02-24 17:18:01.000000000 +0000
+--- schema/v3-schema.sorted.graphql	2018-02-24 17:40:38.000000000 +0000
++++ schema/v4-schema.sorted.graphql	2018-02-24 17:40:38.000000000 +0000
 @@ -31,7 +31,7 @@
  """
  scalar BigInt
@@ -232,7 +232,45 @@
  input PersonInput {
    """A short description about the user, written by the user."""
    about: String
-@@ -718,7 +738,7 @@
+@@ -656,37 +676,6 @@
+   updatedAt: Datetime
+ }
+ 
+-"""A connection to a list of `Thread` values."""
+-type PopularThreadsConnection {
+-  """
+-  A list of edges which contains the `Thread` and cursor to aid in pagination.
+-  """
+-  edges: [PopularThreadsEdge]
+-
+-  """A list of `Thread` objects."""
+-  nodes: [Thread]
+-
+-  """Information to aid in pagination."""
+-  pageInfo: PageInfo!
+-
+-  """The count of *all* `Thread` you could get from the connection."""
+-  totalCount: Int
+-}
+-
+-"""A `Thread` edge in the connection."""
+-type PopularThreadsEdge {
+-  """A cursor for use in pagination."""
+-  cursor: Cursor
+-
+-  """The `Thread` at the end of the edge."""
+-  node: Thread
+-}
+-
+-"""Methods to use when ordering `Thread`."""
+-enum PopularThreadsOrderBy {
+-  NATURAL
+-}
+-
+ """A forum post written by a user."""
+ type Post implements Node {
+   """The id of the author user."""
+@@ -749,7 +738,7 @@
    updatedAt: Datetime
  }
  
@@ -241,7 +279,7 @@
  input PostInput {
    """The id of the author user."""
    authorId: Int!
-@@ -769,10 +789,10 @@
+@@ -800,10 +789,10 @@
    """
    A list of edges which contains the `Post` and cursor to aid in pagination.
    """
@@ -254,7 +292,7 @@
  
    """Information to aid in pagination."""
    pageInfo: PageInfo!
-@@ -839,7 +859,7 @@
+@@ -870,7 +859,7 @@
      offset: Int
  
      """The method to use when ordering `Person`."""
@@ -263,7 +301,7 @@
    ): PeopleConnection
  
    """Reads and enables pagination through a set of `Post`."""
-@@ -868,7 +888,7 @@
+@@ -899,7 +888,7 @@
      offset: Int
  
      """The method to use when ordering `Post`."""
@@ -272,7 +310,7 @@
    ): PostsConnection
  
    """Reads and enables pagination through a set of `Thread`."""
-@@ -897,7 +917,7 @@
+@@ -928,7 +917,7 @@
      offset: Int
  
      """The method to use when ordering `Thread`."""
@@ -281,7 +319,7 @@
    ): ThreadsConnection
  
    """Gets the person who was identified by our JWT."""
-@@ -919,20 +939,14 @@
+@@ -950,10 +939,7 @@
      """The globally unique `ID` to be used in selecting a single `Person`."""
      nodeId: ID!
    ): Person
@@ -290,6 +328,18 @@
 -    id: Int!
 -  ): Person
 +  personById(id: Int!): Person
+ 
+   """Reads and enables pagination through a set of `Thread`."""
+   popularThreads(
+@@ -974,20 +960,14 @@
+     based pagination. May not be used with `last`.
+     """
+     offset: Int
+-
+-    """The method to use when ordering `Thread`."""
+-    orderBy: PopularThreadsOrderBy = NATURAL
+-  ): PopularThreadsConnection
++  ): ThreadsConnection!
  
    """Reads a single `Post` using its globally unique `ID`."""
    post(
@@ -304,7 +354,7 @@
  
    """
    Exposes the root query type nested one level down. This is helpful for Relay 1
-@@ -959,11 +973,8 @@
+@@ -1014,11 +994,8 @@
      based pagination. May not be used with `last`.
      """
      offset: Int
@@ -317,7 +367,7 @@
  
    """Reads a single `Thread` using its globally unique `ID`."""
    thread(
-@@ -998,7 +1009,7 @@
+@@ -1053,7 +1030,7 @@
    """An edge for the type. May be used by Relay 1."""
    personEdge(
      """The method to use when ordering `Person`."""
@@ -326,7 +376,7 @@
    ): PeopleEdge
  
    """
-@@ -1007,37 +1018,6 @@
+@@ -1062,37 +1039,6 @@
    query: Query
  }
  
@@ -364,7 +414,7 @@
  type Thread implements Node {
    authorId: Int!
    body: String
-@@ -1079,8 +1059,8 @@
+@@ -1134,8 +1080,8 @@
      offset: Int
  
      """The method to use when ordering `Post`."""
@@ -375,7 +425,7 @@
    title: String!
    topic: Topic
  }
-@@ -1108,6 +1088,7 @@
+@@ -1163,6 +1109,7 @@
    topic: Topic
  }
  
@@ -383,7 +433,7 @@
  input ThreadInput {
    authorId: Int!
    body: String
-@@ -1134,10 +1115,10 @@
+@@ -1189,10 +1136,10 @@
    """
    A list of edges which contains the `Thread` and cursor to aid in pagination.
    """
@@ -396,7 +446,7 @@
  
    """Information to aid in pagination."""
    pageInfo: PageInfo!
-@@ -1188,12 +1169,10 @@
+@@ -1243,12 +1190,10 @@
    payload verbatim. May be used to track mutations by the client.
    """
    clientMutationId: String
@@ -410,7 +460,7 @@
    """
    personPatch: PersonPatch!
  }
-@@ -1212,20 +1191,28 @@
+@@ -1267,20 +1212,28 @@
    nodeId: ID!
  
    """
@@ -441,7 +491,7 @@
    """
    Our root query field type. Allows us to run any query from our mutation payload.
    """
-@@ -1239,12 +1226,10 @@
+@@ -1294,12 +1247,10 @@
    payload verbatim. May be used to track mutations by the client.
    """
    clientMutationId: String
@@ -455,7 +505,7 @@
    """
    postPatch: PostPatch!
  }
-@@ -1263,12 +1248,12 @@
+@@ -1318,12 +1269,12 @@
    nodeId: ID!
  
    """
@@ -470,7 +520,7 @@
  type UpdatePostPayload {
    """
    The exact same `clientMutationId` that was provided in the mutation input,
-@@ -1278,8 +1263,16 @@
+@@ -1333,8 +1284,16 @@
  
    """Reads a single `Person` that is related to this `Post`."""
    personByAuthorId: Person
@@ -487,7 +537,7 @@
    """
    Our root query field type. Allows us to run any query from our mutation payload.
    """
-@@ -1299,7 +1292,7 @@
+@@ -1354,7 +1313,7 @@
    id: Int!
  
    """
@@ -496,7 +546,7 @@
    """
    threadPatch: ThreadPatch!
  }
-@@ -1318,12 +1311,12 @@
+@@ -1373,12 +1332,12 @@
    nodeId: ID!
  
    """
@@ -511,7 +561,7 @@
  type UpdateThreadPayload {
    """
    The exact same `clientMutationId` that was provided in the mutation input,
-@@ -1338,6 +1331,14 @@
+@@ -1393,6 +1352,14 @@
    Our root query field type. Allows us to run any query from our mutation payload.
    """
    query: Query

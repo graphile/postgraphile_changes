@@ -656,6 +656,37 @@ input PersonPatch {
   updatedAt: Datetime
 }
 
+"""A connection to a list of `Thread` values."""
+type PopularThreadsConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Thread` you could get from the connection."""
+  totalCount: Int
+
+  """
+  A list of edges which contains the `Thread` and cursor to aid in pagination.
+  """
+  edges: [PopularThreadsEdge]
+
+  """A list of `Thread` objects."""
+  nodes: [Thread]
+}
+
+"""A `Thread` edge in the connection."""
+type PopularThreadsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Thread` at the end of the edge."""
+  node: Thread
+}
+
+"""Methods to use when ordering `Thread`."""
+enum PopularThreadsOrderBy {
+  NATURAL
+}
+
 """A forum post written by a user."""
 type Post implements Node {
   """
@@ -821,6 +852,30 @@ type Query implements Node {
 
   """Gets the person who was identified by our JWT."""
   currentPerson: Person
+
+  """Reads and enables pagination through a set of `Thread`."""
+  popularThreads(
+    """The method to use when ordering `Thread`."""
+    orderBy: PopularThreadsOrderBy = NATURAL
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+  ): PopularThreadsConnection
 
   """Returns posts containing a given search term."""
   searchPosts(
