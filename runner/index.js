@@ -32,9 +32,24 @@ async function runProgram(
       }`,
       USER: process.env.USER
     },
-    stdio: "inherit"
+    stdio: "pipe"
   });
-  await sleep(3000);
+  const channels = {
+    stdout: "",
+    stderr: ""
+  };
+  const log = channel => data => {
+    channels[channel] = channels[channel] + data.toString();
+    const lines = channels[channel].split(/\n/);
+    const last = lines.pop();
+    channels[channel] = last;
+    lines.forEach(line => {
+      console.log(`    [${channel}] ${line}`);
+    });
+  };
+  child.stdout.on("data", log("stdout"));
+  child.stderr.on("data", log("stderr"));
+  await sleep(1000);
   const exitPromise = new Promise((resolve, reject) =>
     child.on(
       "exit",
@@ -55,7 +70,12 @@ async function main() {
       const exitProgram = await runProgram(program);
 
       await exitProgram();
-      await sleep(3000);
+
+      console.log(`Sleeping...`);
+      await sleep(2000);
+      console.log();
+      console.log();
+      console.log();
     }
   }
 }
