@@ -134,12 +134,9 @@ async function main() {
           headers: {
             "Content-Type": "application/json"
           },
-          connections: 1,
-          amount: 10
-        },
-        function(err, out) {
-          results.push(out);
-          benchmark();
+          connections: 3,
+          amount: 100,
+          timeout: 200
         }
       );
       console.log();
