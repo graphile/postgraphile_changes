@@ -60,7 +60,7 @@ for (const result of results) {
   data.push(
     [
       query,
-      (bin === "postgraphile" ? chalk.green : chalk.red)(bin),
+      (bin.startsWith("postgraphile") ? chalk.green : chalk.red)(bin),
       concurrency,
       ...statsFromResult(result)
     ].map(String)

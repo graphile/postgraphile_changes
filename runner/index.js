@@ -55,8 +55,6 @@ function ab(opts) {
         opts.url
       ];
 
-      console.log(args);
-
       exec(
         `ab '${args.join("' '")}'`,
         (err, stdout, stderr) => {
@@ -78,7 +76,7 @@ function ab(opts) {
 const QUERY_DIR = `${__dirname}/../graphql`;
 const queries = readdirSync(QUERY_DIR)
   .filter(filename => filename[0] !== "." && filename.endsWith(".graphql"))
-  .filter(filename => filename === "PopularThreads.graphql")
+  //.filter(filename => filename === "PopularThreads.graphql")
   .reduce((memo, filename) => {
     memo[filename] = readFileSync(`${QUERY_DIR}/${filename}`, "utf8");
     return memo;
@@ -176,7 +174,8 @@ async function main() {
     const variables = {};
     for (const program of [
       "postgraphile",
-      "postgraphile --cluster-workers 3"
+      "postgraphile --cluster-workers 3",
+      "postgraphql",
     ]) {
       console.log(`Running ${program} with ${queryFileName}`);
       const exitProgram = await runProgram(program);
