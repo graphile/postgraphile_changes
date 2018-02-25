@@ -1,6 +1,6 @@
 const { resolve } = require("path");
-const { spawn, execFile } = require("child_process");
-const { readdirSync, readFileSync, writeFileSync } = require("fs");
+const { spawn, execFile, exec } = require("child_process");
+const { readdirSync, readFileSync, writeFileSync, writeFile } = require("fs");
 const rawAutocannon = require("autocannon");
 
 const LOG_OUTPUT = false;
@@ -22,9 +22,63 @@ function autocannon(opts) {
 }
 autocannon.track = rawAutocannon.track;
 
+function ab(opts) {
+  /*
+   * opts:
+      url: "http://localhost:5000/graphql",
+      method: "POST",
+      body: JSON.stringify({
+        query,
+        variables
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      connections: 3,
+      amount: 100,
+      timeout: 200
+  */
+  return new Promise((resolve, reject) => {
+    const postBodyFile = `${__dirname}/postbody`;
+    writeFile(postBodyFile, opts.body, err => {
+      if (err) {
+        return reject(err);
+      }
+      const method = opts.method || "POST";
+      const args = [
+        "-n", opts.amount || 100,
+        "-c", opts.connections || 1,
+        "-s", opts.timeout || 30,
+        "-T", "application/json",
+        //"-m", method,
+        ...(method === "POST" ? ["-p", postBodyFile] : null),
+        opts.url
+      ];
+
+      console.log(args);
+
+      exec(
+        `ab '${args.join("' '")}'`,
+        (err, stdout, stderr) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve({
+            title: opts.title,
+            type: "ab",
+            stdout,
+            stderr
+          });
+        }
+      );
+    });
+  });
+}
+
 const QUERY_DIR = `${__dirname}/../graphql`;
 const queries = readdirSync(QUERY_DIR)
   .filter(filename => filename[0] !== "." && filename.endsWith(".graphql"))
+  .filter(filename => filename === "PopularThreads.graphql")
   .reduce((memo, filename) => {
     memo[filename] = readFileSync(`${QUERY_DIR}/${filename}`, "utf8");
     return memo;
@@ -54,8 +108,8 @@ function memoryMonitor(pid) {
 }
 
 async function runProgram(
-  name,
-  args = [
+  inName,
+  inArgs = [
     "-c",
     "postgres://localhost/postgraphile_changes",
     "-s",
@@ -63,6 +117,9 @@ async function runProgram(
     "--disable-graphiql"
   ]
 ) {
+  const [name, ...rest] = inName.split(/\s+/);
+  const args = [...rest, ...inArgs];
+
   const child = spawn(name, args, {
     env: {
       NODE_ENV: "production",
@@ -117,28 +174,29 @@ async function main() {
   for (const queryFileName in queries) {
     const query = queries[queryFileName];
     const variables = {};
-    for (const program of ["postgraphile", "postgraphql"]) {
+    for (const program of [
+      "postgraphile",
+      "postgraphile --cluster-workers 3"
+    ]) {
       console.log(`Running ${program} with ${queryFileName}`);
       const exitProgram = await runProgram(program);
       const pid = exitProgram.pid;
 
       console.log("  Warmup...");
-      await autocannon(
-        {
-          url: "http://localhost:5000/graphql",
-          method: "POST",
-          body: JSON.stringify({
-            query,
-            variables
-          }),
-          headers: {
-            "Content-Type": "application/json"
-          },
-          connections: 3,
-          amount: 100,
-          timeout: 200
-        }
-      );
+      await ab({
+        url: "http://localhost:5000/graphql",
+        method: "POST",
+        body: JSON.stringify({
+          query,
+          variables
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        connections: 3,
+        amount: 100,
+        timeout: 200
+      });
       console.log();
       console.log();
 
@@ -147,7 +205,7 @@ async function main() {
 
         const exitMonitor = memoryMonitor(pid);
 
-        const results = await autocannon({
+        const results = await ab({
           title: `${program} / ${queryFileName} / concurrency=${concurrency}`,
           url: "http://localhost:5000/graphql",
           method: "POST",
