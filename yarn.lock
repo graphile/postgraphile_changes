@@ -298,16 +298,15 @@ generic-pool@2.4.3:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-graphile-build-pg@4.0.0-alpha.2:
-  version "4.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/graphile-build-pg/-/graphile-build-pg-4.0.0-alpha.2.tgz#c58164beae63ae27586182313b8e34f8d3e51eda"
+graphile-build-pg@4.0.0-alpha.3:
+  version "4.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/graphile-build-pg/-/graphile-build-pg-4.0.0-alpha.3.tgz#61a130671b8e784dc81450610b78f16597909d32"
   dependencies:
     babel-runtime ">=6 <7"
     chalk "^2.1.0"
     debug ">=2 <3"
     graphile-build "4.0.0-alpha.1"
     graphql-iso-date "^3.2.0"
-    graphql-type-json "^0.1.4"
     jsonwebtoken "^8.1.1"
     lodash ">=4 <5"
     lru-cache "4.1.1"
@@ -334,10 +333,6 @@ graphql-parse-resolve-info@4.0.0-alpha.1:
   dependencies:
     babel-runtime ">=6 <7"
     debug ">=2 <3"
-
-graphql-type-json@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/graphql-type-json/-/graphql-type-json-0.1.4.tgz#89f13f5d32ce08c9a76c79fdf9c1968384d81a4e"
 
 "graphql@>=0.6 <0.13":
   version "0.12.3"
@@ -723,17 +718,17 @@ pluralize@^5.0.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-5.1.0.tgz#586a3944a76c481f89774f755652779f61d692b2"
 
-postgraphile-core@4.0.0-alpha.2:
-  version "4.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/postgraphile-core/-/postgraphile-core-4.0.0-alpha.2.tgz#468bd5cc19c63781df08701200db77e1ccc945b4"
+postgraphile-core@4.0.0-alpha.3:
+  version "4.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/postgraphile-core/-/postgraphile-core-4.0.0-alpha.3.tgz#5652dac1657cdd3009fe16922b1e2525d7e79471"
   dependencies:
     babel-runtime ">=6 <7"
     graphile-build "4.0.0-alpha.1"
-    graphile-build-pg "4.0.0-alpha.2"
+    graphile-build-pg "4.0.0-alpha.3"
 
-postgraphile@4.0.0-alpha2.34-pre.3:
-  version "4.0.0-alpha2.34-pre.3"
-  resolved "https://registry.yarnpkg.com/postgraphile/-/postgraphile-4.0.0-alpha2.34-pre.3.tgz#f904d73fc31036ce6452e518b8c8ac8fe8723ec2"
+postgraphile@4.0.0-alpha2.34-pre.4:
+  version "4.0.0-alpha2.34-pre.4"
+  resolved "https://registry.yarnpkg.com/postgraphile/-/postgraphile-4.0.0-alpha2.34-pre.4.tgz#664b04d7deaaf94f338a5b4633a5a75dfc14a314"
   dependencies:
     body-parser "^1.15.2"
     chalk "1.1.3"
@@ -751,7 +746,7 @@ postgraphile@4.0.0-alpha2.34-pre.3:
     pg-minify "~0.5.3"
     pg-sql2 "^1.0.0-alpha1.0"
     pluralize "^3.0.0"
-    postgraphile-core "4.0.0-alpha.2"
+    postgraphile-core "4.0.0-alpha.3"
     postgres-interval "^1.0.2"
     send "^0.16.1"
     tslib "^1.5.0"
