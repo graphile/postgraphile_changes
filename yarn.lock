@@ -298,9 +298,9 @@ generic-pool@2.4.3:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-graphile-build-pg@4.0.0-alpha.1:
-  version "4.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/graphile-build-pg/-/graphile-build-pg-4.0.0-alpha.1.tgz#7b071e45604dc2e76b18746cb5845935603395fc"
+graphile-build-pg@4.0.0-alpha.2:
+  version "4.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/graphile-build-pg/-/graphile-build-pg-4.0.0-alpha.2.tgz#c58164beae63ae27586182313b8e34f8d3e51eda"
   dependencies:
     babel-runtime ">=6 <7"
     chalk "^2.1.0"
@@ -723,17 +723,17 @@ pluralize@^5.0.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-5.1.0.tgz#586a3944a76c481f89774f755652779f61d692b2"
 
-postgraphile-core@4.0.0-alpha.1:
-  version "4.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/postgraphile-core/-/postgraphile-core-4.0.0-alpha.1.tgz#2a6551624cb737835580bd84bfef515be9a668de"
+postgraphile-core@4.0.0-alpha.2:
+  version "4.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/postgraphile-core/-/postgraphile-core-4.0.0-alpha.2.tgz#468bd5cc19c63781df08701200db77e1ccc945b4"
   dependencies:
     babel-runtime ">=6 <7"
     graphile-build "4.0.0-alpha.1"
-    graphile-build-pg "4.0.0-alpha.1"
+    graphile-build-pg "4.0.0-alpha.2"
 
-postgraphile@4.0.0-alpha2.34-pre.1:
-  version "4.0.0-alpha2.34-pre.1"
-  resolved "https://registry.yarnpkg.com/postgraphile/-/postgraphile-4.0.0-alpha2.34-pre.1.tgz#46ecd03642e7fda4d7987f40f9f5febea9b89959"
+postgraphile@4.0.0-alpha2.34-pre.3:
+  version "4.0.0-alpha2.34-pre.3"
+  resolved "https://registry.yarnpkg.com/postgraphile/-/postgraphile-4.0.0-alpha2.34-pre.3.tgz#f904d73fc31036ce6452e518b8c8ac8fe8723ec2"
   dependencies:
     body-parser "^1.15.2"
     chalk "1.1.3"
@@ -751,7 +751,7 @@ postgraphile@4.0.0-alpha2.34-pre.1:
     pg-minify "~0.5.3"
     pg-sql2 "^1.0.0-alpha1.0"
     pluralize "^3.0.0"
-    postgraphile-core "4.0.0-alpha.1"
+    postgraphile-core "4.0.0-alpha.2"
     postgres-interval "^1.0.2"
     send "^0.16.1"
     tslib "^1.5.0"

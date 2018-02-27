@@ -17,7 +17,7 @@
     "ab-result": "1.0.2",
     "autocannon": "2.0.0",
     "aws-sdk": "2.202.0",
-    "postgraphile": "4.0.0-alpha2.34-pre.1",
+    "postgraphile": "4.0.0-alpha2.34-pre.3",
     "postgraphql": "3.5.6"
   }
 }
