@@ -238,8 +238,27 @@ create policy update_post on forum_example.post for update to forum_example_pers
 create policy delete_post on forum_example.post for delete to forum_example_person
   using (author_id = current_setting('jwt.claims.person_id')::integer);
 
+create table forum_example_private.thread_stats (
+  thread_id int not null primary key references forum_example.thread,
+  post_count int not null default 0
+);
+
+create function forum_example_private.change_thread_count() returns trigger as $$
+begin
+  if tg_op = 'DELETE' then
+    update forum_example_private.thread_stats set post_count = post_count - 1 where thread_id = old.thread_id;
+    return old;
+  else
+    update forum_example_private.thread_stats set post_count = post_count + 1 where thread_id = new.thread_id;
+    return new;
+  end if;
+end;
+$$ language plpgsql;
+
+create trigger change_count after insert or delete on forum_example.post for each row execute procedure forum_example_private.change_thread_count();
+
 create function forum_example.popular_threads() returns setof forum_example.thread as $$
-  select thread.* from forum_example.thread inner join forum_example.post on (post.thread_id = thread.id) group by thread.id order by count(*) desc;
+  select thread.* from forum_example.thread inner join forum_example_private.thread_stats on (thread_stats.thread_id = thread.id) order by post_count desc;
 $$ language sql stable;
 
 create table forum_example.emoji (
