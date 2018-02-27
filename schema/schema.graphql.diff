@@ -1,5 +1,5 @@
---- schema/v3-schema.sorted.graphql	2018-02-27 08:54:09.000000000 +0000
-+++ schema/v4-schema.sorted.graphql	2018-02-27 08:54:09.000000000 +0000
+--- schema/v3-schema.sorted.graphql	2018-02-27 21:03:51.000000000 +0000
++++ schema/v4-schema.sorted.graphql	2018-02-27 21:03:51.000000000 +0000
 @@ -31,7 +31,7 @@
  """
  scalar BigInt
@@ -292,7 +292,7 @@
  
    """A list of `Emoji` objects."""
 -  nodes: [Emoji!]
-+  nodes: [Emoji]!
++  nodes: [Emoji!]!
  
    """Information to aid in pagination."""
    pageInfo: PageInfo!
@@ -314,7 +314,7 @@
  
    """A list of `Person` objects."""
 -  nodes: [Person!]
-+  nodes: [Person]!
++  nodes: [Person!]!
  
    """Information to aid in pagination."""
    pageInfo: PageInfo!
@@ -435,7 +435,7 @@
  
    """A list of `PostEmoji` objects."""
 -  nodes: [PostEmoji!]
-+  nodes: [PostEmoji]!
++  nodes: [PostEmoji!]!
  
    """Information to aid in pagination."""
    pageInfo: PageInfo!
@@ -457,7 +457,7 @@
  
    """A list of `Post` objects."""
 -  nodes: [Post!]
-+  nodes: [Post]!
++  nodes: [Post!]!
  
    """Information to aid in pagination."""
    pageInfo: PageInfo!
@@ -633,7 +633,7 @@
  
    """A list of `Thread` objects."""
 -  nodes: [Thread!]
-+  nodes: [Thread]!
++  nodes: [Thread!]!
  
    """Information to aid in pagination."""
    pageInfo: PageInfo!

@@ -572,7 +572,7 @@ type EmojisConnection {
   edges: [EmojisEdge!]!
 
   """A list of `Emoji` objects."""
-  nodes: [Emoji]!
+  nodes: [Emoji!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -867,7 +867,7 @@ type PeopleConnection {
   edges: [PeopleEdge!]!
 
   """A list of `Person` objects."""
-  nodes: [Person]!
+  nodes: [Person!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -1243,7 +1243,7 @@ type PostEmojisConnection {
   edges: [PostEmojisEdge!]!
 
   """A list of `PostEmoji` objects."""
-  nodes: [PostEmoji]!
+  nodes: [PostEmoji!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -1330,7 +1330,7 @@ type PostsConnection {
   edges: [PostsEdge!]!
 
   """A list of `Post` objects."""
-  nodes: [Post]!
+  nodes: [Post!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -1751,7 +1751,7 @@ type ThreadsConnection {
   edges: [ThreadsEdge!]!
 
   """A list of `Thread` objects."""
-  nodes: [Thread]!
+  nodes: [Thread!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!

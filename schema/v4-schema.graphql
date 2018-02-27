@@ -565,7 +565,7 @@ input EmojiPatch {
 """A connection to a list of `Emoji` values."""
 type EmojisConnection {
   """A list of `Emoji` objects."""
-  nodes: [Emoji]!
+  nodes: [Emoji!]!
 
   """
   A list of edges which contains the `Emoji` and cursor to aid in pagination.
@@ -860,7 +860,7 @@ type PageInfo {
 """A connection to a list of `Person` values."""
 type PeopleConnection {
   """A list of `Person` objects."""
-  nodes: [Person]!
+  nodes: [Person!]!
 
   """
   A list of edges which contains the `Person` and cursor to aid in pagination.
@@ -1235,7 +1235,7 @@ input PostEmojiPatch {
 """A connection to a list of `PostEmoji` values."""
 type PostEmojisConnection {
   """A list of `PostEmoji` objects."""
-  nodes: [PostEmoji]!
+  nodes: [PostEmoji!]!
 
   """
   A list of edges which contains the `PostEmoji` and cursor to aid in pagination.
@@ -1322,7 +1322,7 @@ input PostPatch {
 """A connection to a list of `Post` values."""
 type PostsConnection {
   """A list of `Post` objects."""
-  nodes: [Post]!
+  nodes: [Post!]!
 
   """
   A list of edges which contains the `Post` and cursor to aid in pagination.
@@ -1743,7 +1743,7 @@ input ThreadPatch {
 """A connection to a list of `Thread` values."""
 type ThreadsConnection {
   """A list of `Thread` objects."""
-  nodes: [Thread]!
+  nodes: [Thread!]!
 
   """
   A list of edges which contains the `Thread` and cursor to aid in pagination.
