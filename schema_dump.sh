@@ -1,3 +1,5 @@
+./db/reset.sh
+
 npm run postgraphql -- --export-schema-graphql schema/v3-schema.graphql &
 PID=$!
 sleep 2
