@@ -239,9 +239,18 @@ create policy delete_post on forum_example.post for delete to forum_example_pers
   using (author_id = current_setting('jwt.claims.person_id')::integer);
 
 create table forum_example_private.thread_stats (
-  thread_id int not null primary key references forum_example.thread,
+  thread_id int not null primary key references forum_example.thread on delete cascade,
   post_count int not null default 0
 );
+
+create function forum_example_private.create_thread_stats() returns trigger as $$
+begin
+  insert into forum_example_private.thread_stats(thread_id) values(NEW.id);
+  return NEW;
+end;
+$$ language plpgsql;
+
+create trigger create_thread_stats after insert on forum_example.thread for each row execute procedure forum_example_private.create_thread_stats();
 
 create function forum_example_private.change_thread_count() returns trigger as $$
 begin
