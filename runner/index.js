@@ -183,7 +183,7 @@ async function main() {
 
       console.log("  Warmup...");
       await ab({
-        url: "http://localhost:5000/graphql",
+        url: "http://127.0.0.1:5000/graphql",
         method: "POST",
         body: JSON.stringify({
           query,
@@ -206,7 +206,7 @@ async function main() {
 
         const results = await ab({
           title: `${program} / ${queryFileName} / concurrency=${concurrency}`,
-          url: "http://localhost:5000/graphql",
+          url: "http://127.0.0.1:5000/graphql",
           method: "POST",
           body: JSON.stringify({
             query,
