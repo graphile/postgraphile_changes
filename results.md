@@ -2,17 +2,15 @@
 
 These are the results of running the various GraphQL queries against a database running on a Mid-2011 iMac. You can reproduce this test by running `node runner`.
 
-- Query: the GraphQL query that we execute
-- Program: which version of PostGraphQL/PostGraphile are we using?
-- Concurrency: how many requests do we try and make the server process in parallel?
-- Requests sent: how many requests did we actually send to the server?
-- Requests complete: how many requests completed successfully?
-- Requests/second avg: the total number of requests divided by the total number of seconds
-- Latency min: the fastest response time any of the queries gave
-- Latency p50: the average response time queries gave (50th percentile - 50% of queries completed this fast or faster)
-- Latency p90: 90% of queries completed within this duration
-- Latency p99: 99% of queries completed within this duration
-- Max RSS: the peak memory usage of the node process. ⚠️ This does not work with `--cluster-workers` because it only monitors the parent process. ⚠️ Do not trust this figure, it was not polled with sufficient resolution to be reliable.
+* Query: the GraphQL query that we execute
+* Program: which version of PostGraphQL/PostGraphile are we using?
+* Conc: concurrency - how many requests do we try and make the server process in parallel?
+* req/s: average requests per second - the total number of requests divided by the total number of seconds
+* Latency min: the fastest response time any of the queries gave
+* Latency p50: the average response time queries gave (50th percentile - 50% of queries completed this fast or faster)
+* Latency p90: 90% of queries completed within this duration
+* Latency p99: 99% of queries completed within this duration
+* Max RSS: the peak memory usage of the node process. ⚠️ This does not work with `--cluster-workers` because it only monitors the parent process. ⚠️ Do not trust this figure, it was not polled with sufficient resolution to be reliable.
 
 ---
 
@@ -20,10 +18,8 @@ These are the results of running the various GraphQL queries against a database 
 <thead><tr>
 <th><b>Query</b></th>
 <th><b>program</b></th>
-<th><b>Concurrency</b></th>
-<th><b>requests sent</b></th>
-<th><b>requests complete</b></th>
-<th><b>requests/second avg</b></th>
+<th>Conc</th>
+<th>req/s</th>
 <th><b>latency min</b></th>
 <th><b>latency p50</b></th>
 <th><b>latency p90</b></th>
@@ -32,12 +28,10 @@ These are the results of running the various GraphQL queries against a database 
 </tr></thead>
 <tbody>
 <tr><th>
-<a href="./graphql/PopularThreads.graphql">PopularThreads.graphql</a>
+<a href="./graphql/PopularThreads.graphql">PopularThreads</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>20.05</td>
 <td>48</td>
 <td>49</td>
@@ -46,12 +40,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>78924</td>
 </tr>
 <tr><th>
-<a href="./graphql/PopularThreads.graphql">PopularThreads.graphql</a>
+<a href="./graphql/PopularThreads.graphql">PopularThreads</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>67.67</td>
 <td>98</td>
 <td>129</td>
@@ -60,12 +52,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>81876</td>
 </tr>
 <tr><th>
-<a href="./graphql/PopularThreads.graphql">PopularThreads.graphql</a>
+<a href="./graphql/PopularThreads.graphql">PopularThreads</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>81.19</td>
 <td>144</td>
 <td>1202</td>
@@ -74,12 +64,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>99316</td>
 </tr>
 <tr><th>
-<a href="./graphql/PopularThreads.graphql">PopularThreads.graphql</a>
+<a href="./graphql/PopularThreads.graphql">PopularThreads</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>18.77</td>
 <td>50</td>
 <td>51</td>
@@ -88,12 +76,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>43476</td>
 </tr>
 <tr><th>
-<a href="./graphql/PopularThreads.graphql">PopularThreads.graphql</a>
+<a href="./graphql/PopularThreads.graphql">PopularThreads</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>68.58</td>
 <td>96</td>
 <td>128</td>
@@ -102,12 +88,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>43876</td>
 </tr>
 <tr><th>
-<a href="./graphql/PopularThreads.graphql">PopularThreads.graphql</a>
+<a href="./graphql/PopularThreads.graphql">PopularThreads</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>82.48</td>
 <td>275</td>
 <td>1158</td>
@@ -116,12 +100,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>47268</td>
 </tr>
 <tr><th>
-<a href="./graphql/PopularThreads.graphql">PopularThreads.graphql</a>
+<a href="./graphql/PopularThreads.graphql">PopularThreads</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>15.23</td>
 <td>61</td>
 <td>63</td>
@@ -130,12 +112,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>120152</td>
 </tr>
 <tr><th>
-<a href="./graphql/PopularThreads.graphql">PopularThreads.graphql</a>
+<a href="./graphql/PopularThreads.graphql">PopularThreads</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>50.75</td>
 <td>121</td>
 <td>185</td>
@@ -144,12 +124,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>126400</td>
 </tr>
 <tr><th>
-<a href="./graphql/PopularThreads.graphql">PopularThreads.graphql</a>
+<a href="./graphql/PopularThreads.graphql">PopularThreads</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>56.61</td>
 <td>197</td>
 <td>1727</td>
@@ -158,12 +136,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>165316</td>
 </tr>
 <tr><th>
-<a href="./graphql/ProfileView.graphql">ProfileView.graphql</a>
+<a href="./graphql/ProfileView.graphql">ProfileView</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>192.23</td>
 <td>4</td>
 <td>5</td>
@@ -172,12 +148,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>82864</td>
 </tr>
 <tr><th>
-<a href="./graphql/ProfileView.graphql">ProfileView.graphql</a>
+<a href="./graphql/ProfileView.graphql">ProfileView</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>320.78</td>
 <td>18</td>
 <td>28</td>
@@ -186,12 +160,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>85300</td>
 </tr>
 <tr><th>
-<a href="./graphql/ProfileView.graphql">ProfileView.graphql</a>
+<a href="./graphql/ProfileView.graphql">ProfileView</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>412.1</td>
 <td>90</td>
 <td>238</td>
@@ -200,12 +172,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>101604</td>
 </tr>
 <tr><th>
-<a href="./graphql/ProfileView.graphql">ProfileView.graphql</a>
+<a href="./graphql/ProfileView.graphql">ProfileView</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>164.98</td>
 <td>5</td>
 <td>6</td>
@@ -214,12 +184,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>43224</td>
 </tr>
 <tr><th>
-<a href="./graphql/ProfileView.graphql">ProfileView.graphql</a>
+<a href="./graphql/ProfileView.graphql">ProfileView</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>411.2</td>
 <td>8</td>
 <td>18</td>
@@ -228,12 +196,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>43628</td>
 </tr>
 <tr><th>
-<a href="./graphql/ProfileView.graphql">ProfileView.graphql</a>
+<a href="./graphql/ProfileView.graphql">ProfileView</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>582.21</td>
 <td>40</td>
 <td>163</td>
@@ -242,12 +208,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>46692</td>
 </tr>
 <tr><th>
-<a href="./graphql/ProfileView.graphql">ProfileView.graphql</a>
+<a href="./graphql/ProfileView.graphql">ProfileView</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>142.35</td>
 <td>6</td>
 <td>6</td>
@@ -256,12 +220,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>100656</td>
 </tr>
 <tr><th>
-<a href="./graphql/ProfileView.graphql">ProfileView.graphql</a>
+<a href="./graphql/ProfileView.graphql">ProfileView</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>184.26</td>
 <td>31</td>
 <td>47</td>
@@ -270,12 +232,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>107804</td>
 </tr>
 <tr><th>
-<a href="./graphql/ProfileView.graphql">ProfileView.graphql</a>
+<a href="./graphql/ProfileView.graphql">ProfileView</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>237.23</td>
 <td>105</td>
 <td>415</td>
@@ -284,12 +244,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>139252</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadList.graphql">ThreadList.graphql</a>
+<a href="./graphql/ThreadList.graphql">ThreadList</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>179.11</td>
 <td>5</td>
 <td>5</td>
@@ -298,12 +256,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>80276</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadList.graphql">ThreadList.graphql</a>
+<a href="./graphql/ThreadList.graphql">ThreadList</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>299.81</td>
 <td>18</td>
 <td>30</td>
@@ -312,12 +268,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>82924</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadList.graphql">ThreadList.graphql</a>
+<a href="./graphql/ThreadList.graphql">ThreadList</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>355.4</td>
 <td>93</td>
 <td>268</td>
@@ -326,12 +280,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>101176</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadList.graphql">ThreadList.graphql</a>
+<a href="./graphql/ThreadList.graphql">ThreadList</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>134.54</td>
 <td>6</td>
 <td>7</td>
@@ -340,12 +292,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>43188</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadList.graphql">ThreadList.graphql</a>
+<a href="./graphql/ThreadList.graphql">ThreadList</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>372.31</td>
 <td>8</td>
 <td>19</td>
@@ -354,12 +304,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>43588</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadList.graphql">ThreadList.graphql</a>
+<a href="./graphql/ThreadList.graphql">ThreadList</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>591.99</td>
 <td>34</td>
 <td>157</td>
@@ -368,12 +316,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>46908</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadList.graphql">ThreadList.graphql</a>
+<a href="./graphql/ThreadList.graphql">ThreadList</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>46.74</td>
 <td>20</td>
 <td>20</td>
@@ -382,12 +328,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>118248</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadList.graphql">ThreadList.graphql</a>
+<a href="./graphql/ThreadList.graphql">ThreadList</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>71.1</td>
 <td>102</td>
 <td>131</td>
@@ -396,12 +340,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>125292</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadList.graphql">ThreadList.graphql</a>
+<a href="./graphql/ThreadList.graphql">ThreadList</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>76.81</td>
 <td>181</td>
 <td>1286</td>
@@ -410,12 +352,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>161864</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy.graphql</a>
+<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>14.78</td>
 <td>64</td>
 <td>66</td>
@@ -424,12 +364,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>88460</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy.graphql</a>
+<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>30.4</td>
 <td>288</td>
 <td>331</td>
@@ -438,12 +376,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>90916</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy.graphql</a>
+<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>34.5</td>
 <td>365</td>
 <td>2845</td>
@@ -452,12 +388,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>119308</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy.graphql</a>
+<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>15.11</td>
 <td>65</td>
 <td>66</td>
@@ -466,12 +400,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>43508</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy.graphql</a>
+<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>51.91</td>
 <td>105</td>
 <td>170</td>
@@ -480,12 +412,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>43900</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy.graphql</a>
+<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>52.61</td>
 <td>302</td>
 <td>1806</td>
@@ -494,12 +424,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>47304</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy.graphql</a>
+<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>2.01</td>
 <td>476</td>
 <td>486</td>
@@ -508,12 +436,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>319444</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy.graphql</a>
+<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>2.57</td>
 <td>2332</td>
 <td>3796</td>
@@ -522,12 +448,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>460540</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy.graphql</a>
+<a href="./graphql/ThreadListHeavy.graphql">ThreadListHeavy</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>2.47</td>
 <td>3691</td>
 <td>40172</td>
@@ -536,12 +460,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>739480</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadView.graphql">ThreadView.graphql</a>
+<a href="./graphql/ThreadView.graphql">ThreadView</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>111.95</td>
 <td>8</td>
 <td>8</td>
@@ -550,12 +472,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>86492</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadView.graphql">ThreadView.graphql</a>
+<a href="./graphql/ThreadView.graphql">ThreadView</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>201.47</td>
 <td>29</td>
 <td>49</td>
@@ -564,12 +484,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>91232</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadView.graphql">ThreadView.graphql</a>
+<a href="./graphql/ThreadView.graphql">ThreadView</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>229.73</td>
 <td>110</td>
 <td>421</td>
@@ -578,12 +496,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>109976</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadView.graphql">ThreadView.graphql</a>
+<a href="./graphql/ThreadView.graphql">ThreadView</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>89.81</td>
 <td>9</td>
 <td>11</td>
@@ -592,12 +508,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>43348</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadView.graphql">ThreadView.graphql</a>
+<a href="./graphql/ThreadView.graphql">ThreadView</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>298.78</td>
 <td>18</td>
 <td>29</td>
@@ -606,12 +520,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>43760</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadView.graphql">ThreadView.graphql</a>
+<a href="./graphql/ThreadView.graphql">ThreadView</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>398.96</td>
 <td>51</td>
 <td>232</td>
@@ -620,12 +532,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>46996</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadView.graphql">ThreadView.graphql</a>
+<a href="./graphql/ThreadView.graphql">ThreadView</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>19.41</td>
 <td>45</td>
 <td>50</td>
@@ -634,12 +544,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>137412</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadView.graphql">ThreadView.graphql</a>
+<a href="./graphql/ThreadView.graphql">ThreadView</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>28.76</td>
 <td>155</td>
 <td>345</td>
@@ -648,12 +556,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>158692</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadView.graphql">ThreadView.graphql</a>
+<a href="./graphql/ThreadView.graphql">ThreadView</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>29.77</td>
 <td>405</td>
 <td>3322</td>
@@ -662,12 +568,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>182280</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji.graphql</a>
+<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>16.37</td>
 <td>58</td>
 <td>60</td>
@@ -676,12 +580,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>94320</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji.graphql</a>
+<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>29.89</td>
 <td>167</td>
 <td>330</td>
@@ -690,12 +592,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>106668</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji.graphql</a>
+<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji</a>
 </th>
 <td><span style="color:#0A0">postgraphile<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>35.33</td>
 <td>271</td>
 <td>2793</td>
@@ -704,12 +604,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>120908</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji.graphql</a>
+<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>15.01</td>
 <td>61</td>
 <td>64</td>
@@ -718,12 +616,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>43360</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji.graphql</a>
+<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>49.83</td>
 <td>82</td>
 <td>186</td>
@@ -732,12 +628,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>43756</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji.graphql</a>
+<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji</a>
 </th>
 <td><span style="color:#0A0">postgraphile --cluster-workers 3<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>51.58</td>
 <td>244</td>
 <td>1700</td>
@@ -746,12 +640,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>47172</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji.graphql</a>
+<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>1</td>
-<td>14</td>
-<td>14</td>
 <td>1.41</td>
 <td>630</td>
 <td>690</td>
@@ -760,12 +652,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>600196</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji.graphql</a>
+<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>10</td>
-<td>50</td>
-<td>50</td>
 <td>1.62</td>
 <td>1854</td>
 <td>6472</td>
@@ -774,12 +664,10 @@ These are the results of running the various GraphQL queries against a database 
 <td>889896</td>
 </tr>
 <tr><th>
-<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji.graphql</a>
+<a href="./graphql/ThreadViewWithEmoji.graphql">ThreadViewWithEmoji</a>
 </th>
 <td><span style="color:#A00">postgraphql<span style="color:#FFF"></span></span></td>
 <td>100</td>
-<td>410</td>
-<td>410</td>
 <td>1.61</td>
 <td>5756</td>
 <td>61129</td>

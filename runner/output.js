@@ -74,19 +74,23 @@ for (const result of results) {
   );
 }
 
-const linkQuery = str => `<a href="./graphql/${str}">${str}</a>`;
+const linkQuery = str => `<a href="./graphql/${str}">${str.replace(/\.graphql$/,'')}</a>`;
 
 console.log(table(data));
+
+const trimmedData = data.map(row => [...row.slice(0,3), ...row.slice(5)]);
 const htmlParts = [];
 htmlParts.push("<table>");
 
 htmlParts.push("<thead><tr>");
-const headers = data[0];
+const headers = trimmedData[0];
+headers[2] = 'Conc'
+headers[3] = 'req/s'
 htmlParts.push(...(headers.map(a2h).map(tagify('th'))));
 htmlParts.push("</tr></thead>");
 
 htmlParts.push("<tbody>");
-data.slice(1).forEach(row => {
+trimmedData.slice(1).forEach(row => {
   htmlParts.push("<tr><th>",linkQuery(row[0]),"</th>",...(row.slice(1).map(a2h).map(tagify('td'))), "</tr>");
 });
 htmlParts.push("</tbody>");
@@ -101,10 +105,8 @@ These are the results of running the various GraphQL queries against a database 
 
 - Query: the GraphQL query that we execute
 - Program: which version of PostGraphQL/PostGraphile are we using?
-- Concurrency: how many requests do we try and make the server process in parallel?
-- Requests sent: how many requests did we actually send to the server?
-- Requests complete: how many requests completed successfully?
-- Requests/second avg: the total number of requests divided by the total number of seconds
+- Conc: concurrency - how many requests do we try and make the server process in parallel?
+- req/s: average requests per second - the total number of requests divided by the total number of seconds
 - Latency min: the fastest response time any of the queries gave
 - Latency p50: the average response time queries gave (50th percentile - 50% of queries completed this fast or faster)
 - Latency p90: 90% of queries completed within this duration
