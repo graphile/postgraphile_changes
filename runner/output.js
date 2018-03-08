@@ -78,12 +78,22 @@ const linkQuery = str => `<a href="./graphql/${str}">${str.replace(/\.graphql$/,
 
 console.log(table(data));
 
-const trimmedData = data.map(row => [...row.slice(0,3), ...row.slice(5)]);
+const trimmedData = data.map(row => [...row.slice(0,3), row[5], ...row.slice(7)]);
+const shortName = str => {
+  if (str.includes("--cluster-workers")) {
+    return "v4cluster";
+  } else if (str.includes("postgraphql")) {
+    return "v3";
+  } else if (str.includes("postgraphile")) {
+    return "v4";
+  }
+}
 const htmlParts = [];
 htmlParts.push("<table>");
 
 htmlParts.push("<thead><tr>");
 const headers = trimmedData[0];
+headers[1] = 'Version'
 headers[2] = 'Conc'
 headers[3] = 'req/s'
 htmlParts.push(...(headers.map(a2h).map(tagify('th'))));
@@ -91,7 +101,7 @@ htmlParts.push("</tr></thead>");
 
 htmlParts.push("<tbody>");
 trimmedData.slice(1).forEach(row => {
-  htmlParts.push("<tr><th>",linkQuery(row[0]),"</th>",...(row.slice(1).map(a2h).map(tagify('td'))), "</tr>");
+  htmlParts.push("<tr><th>",linkQuery(row[0]),"</th>",tagify('td')(shortName(row[1])),...(row.slice(2).map(a2h).map(tagify('td'))), "</tr>");
 });
 htmlParts.push("</tbody>");
 
@@ -104,14 +114,13 @@ fs.writeFileSync(`${__dirname}/../RESULTS.md`, `\
 These are the results of running the various GraphQL queries against a database running on a Mid-2011 iMac. You can reproduce this test by running \`node runner\`.
 
 - Query: the GraphQL query that we execute
-- Program: which version of PostGraphQL/PostGraphile are we using?
+- Version: which version of PostGraphQL/PostGraphile are we using?
 - Conc: concurrency - how many requests do we try and make the server process in parallel?
 - req/s: average requests per second - the total number of requests divided by the total number of seconds
-- Latency min: the fastest response time any of the queries gave
 - Latency p50: the average response time queries gave (50th percentile - 50% of queries completed this fast or faster)
 - Latency p90: 90% of queries completed within this duration
 - Latency p99: 99% of queries completed within this duration
-- Max RSS: the peak memory usage of the node process. ⚠️ This does not work with \`--cluster-workers\` because it only monitors the parent process. ⚠️ Do not trust this figure, it was not polled with sufficient resolution to be reliable.
+- Max RSS: the peak memory usage of the node process. ⚠️ This does not work with \`v4 cluster\` because it only monitors the parent process. ⚠️ Do not trust this figure, it was not polled with sufficient resolution to be reliable.
 
 ---
 
