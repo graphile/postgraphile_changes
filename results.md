@@ -1,6 +1,8 @@
 # Results
 
-These are the results of running the various GraphQL queries against a database running on a Mid-2011 iMac. You can reproduce this test by running `node runner`.
+PostGraphile v4 is now in beta! https://github.com/graphile/postgraphile/releases/tag/v4.0.0-beta.0
+
+Below are the results of running various GraphQL queries against [a sample database](db/reset.sh), with everything running on a Mid-2011 iMac.
 
 - Query: the GraphQL query that we execute
 - Version: which version of PostGraphQL/PostGraphile are we using?
