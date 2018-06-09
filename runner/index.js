@@ -46,12 +46,13 @@ function ab(opts) {
       }
       const method = opts.method || "POST";
       const args = [
-        "-n", opts.amount || 100,
-        "-c", opts.connections || 1,
+        ...(opts.amount || opts.maxOverallRequests && [ "-n", opts.amount || opts.maxOverallRequests] || []),
+        ...(opts.connections && ["-c", opts.connections] || []),
+        ...(opts.duration && ["-t", opts.duration] || []),
         "-s", opts.timeout || 30,
         "-T", "application/json",
         //"-m", method,
-        ...(method === "POST" ? ["-p", postBodyFile] : null),
+        ...(method === "POST" ? ["-p", postBodyFile] : []),
         opts.url
       ];
 
