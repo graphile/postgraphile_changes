@@ -192,9 +192,23 @@ async function main() {
         headers: {
           "Content-Type": "application/json"
         },
-        connections: 3,
-        amount: 100,
-        timeout: 200
+        connections: 1,
+        timeout: 200,
+        duration: 15000,
+      });
+      await ab({
+        url: "http://127.0.0.1:5000/graphql",
+        method: "POST",
+        body: JSON.stringify({
+          query,
+          variables
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        connections: 10,
+        timeout: 200,
+        duration: 120000,
       });
       console.log();
       console.log();
@@ -216,9 +230,9 @@ async function main() {
             "Content-Type": "application/json"
           },
           connections: concurrency,
-          amount: 10 + concurrency * 4,
-          duration: 1000,
-          timeout: 200
+          duration: 30,
+          maxOverallRequests: concurrency * 20,
+          timeout: 200,
         });
         results.memorySamples = await exitMonitor();
         allResults.push(results);
