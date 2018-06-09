@@ -46,6 +46,7 @@ function ab(opts) {
       }
       const method = opts.method || "POST";
       const args = [
+        "-k", // Keepalive so we don't run out of sockets on OSX
         ...(opts.amount || opts.maxOverallRequests && [ "-n", opts.amount || opts.maxOverallRequests] || []),
         ...(opts.connections && ["-c", opts.connections] || []),
         ...(opts.duration && ["-t", opts.duration] || []),
@@ -207,7 +208,7 @@ async function main() {
         headers: {
           "Content-Type": "application/json"
         },
-        connections: 10,
+        connections: 8,
         timeout: 200,
         duration: 120,
       });
@@ -215,6 +216,8 @@ async function main() {
       console.log();
 
       for (const concurrency of [1, 10, 100]) {
+        console.log("  Resting...");
+        await sleep(15000);
         console.log("  Concurrency ", concurrency, "...");
 
         const exitMonitor = memoryMonitor(pid);
