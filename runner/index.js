@@ -108,15 +108,15 @@ function memoryMonitor(pid) {
 async function runProgram(
   inName,
   inArgs = [
-    "-c",
-    "postgres://localhost/postgraphile_changes",
-    "-s",
-    "forum_example",
-    "--disable-graphiql"
+    "-c", "postgres://localhost/postgraphile_changes",
+    "-s", "forum_example",
+    "--disable-graphiql",
+    "--max-pool-size", "100",
+    inName === 'postgraphile' ? "--disable-query-log" : null,
   ]
 ) {
   const [name, ...rest] = inName.split(/\s+/);
-  const args = [...rest, ...inArgs];
+  const args = [...rest, ...inArgs].filter(_ => _);
 
   const child = spawn(name, args, {
     env: {
@@ -158,7 +158,7 @@ async function runProgram(
       }
     });
   });
-  await sleep(1000);
+  await sleep(1500);
   const stop = async function() {
     child.kill("SIGTERM");
     return exitPromise;

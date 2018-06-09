@@ -8,8 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run reset && npm run postgraphile",
     "reset": "./db/reset.sh",
-    "postgraphile": "postgraphile -c postgres://localhost/postgraphile_changes -s forum_example",
-    "postgraphql": "postgraphql -c postgres://localhost/postgraphile_changes -s forum_example"
+    "postgraphile": "postgraphile -c postgres://localhost/postgraphile_changes -s forum_example --disable-query-log --max-pool-size 100",
+    "postgraphql": "postgraphql -c postgres://localhost/postgraphile_changes -s forum_example --max-pool-size 100"
   },
   "author": "Benjie Gillam <benjie@graphile.org> (https://twitter.com/Benjie)",
   "license": "MIT",
