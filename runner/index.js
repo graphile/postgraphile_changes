@@ -194,7 +194,7 @@ async function main() {
         },
         connections: 1,
         timeout: 200,
-        duration: 15000,
+        duration: 15,
       });
       await ab({
         url: "http://127.0.0.1:5000/graphql",
@@ -208,7 +208,7 @@ async function main() {
         },
         connections: 10,
         timeout: 200,
-        duration: 120000,
+        duration: 120,
       });
       console.log();
       console.log();
@@ -231,7 +231,7 @@ async function main() {
           },
           connections: concurrency,
           duration: 30,
-          maxOverallRequests: concurrency * 20,
+          maxOverallRequests: concurrency * 15,
           timeout: 200,
         });
         results.memorySamples = await exitMonitor();
