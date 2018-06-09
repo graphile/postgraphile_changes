@@ -234,8 +234,7 @@ async function main() {
             "Content-Type": "application/json"
           },
           connections: concurrency,
-          duration: 30,
-          maxOverallRequests: concurrency * 15,
+          amount: 10 + concurrency * 4,
           timeout: 200,
         });
         results.memorySamples = await exitMonitor();
