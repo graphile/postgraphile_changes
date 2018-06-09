@@ -114,7 +114,7 @@ async function runProgram(
     "-s", "forum_example",
     "--disable-graphiql",
     "--max-pool-size", "100",
-    inName === 'postgraphile' ? "--disable-query-log" : null,
+    inName.match(/^postgraphile/) ? "--disable-query-log" : null,
   ]
 ) {
   const [name, ...rest] = inName.split(/\s+/);
